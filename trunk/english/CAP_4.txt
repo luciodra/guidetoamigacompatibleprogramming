@@ -1,0 +1,876 @@
+CHAPTER 4: Interaction between programs and users on Amiga: GUI
+
+"Neither PC, nor Mac, nor Amiga have invented the concept of mouse-driven
+GUI, but in 1985 Amiga offered certainly its most interesting and complete
+implementation."
+Massimo Tantignone, "VisualPrefs and the Amiga GUI: tips and tricks", ??/01/2000 
+
+"Design beautiful Gadgets, Menus, Requesters. Think simplicity and elegance. 
+Always remember the fourth grader, the sophisticated user, and the poor 
+soul who is terrified of breaking the machine. "
+Robert J. Mical, Amiga Intuition Reference Manual
+
+"In my opinion, neither a programmer nor the operating system shall 
+define how GUI elements shall look. The only person who knows the best 
+choice is the *user* of an application.
+That's what MUI tries to accomplish. The *user* of a MUI application
+can decide if he wants to have standard system scrollers or absolutely
+fancy designed knobs sliding on a stony background pattern."
+Stefan Stuntz, comp.sys.amiga.programmer, 13/08/1993
+
+"[...]If you had read the MUI docs more carefully, you would have noticed that 
+all MUI classes are subclasses of rootclass (since every BOOPSI object 
+is a subclass of rootclass)[...]" 
+"[...]Commodore implemented a gadget class and an image class (with several
+sub classes) and instances of these (and only these) classes are
+sometimes called by input.device.[...]"
+"[...]MUI classes are not called by input.device and do not affect 
+system performance![...]"
+Stefan Stuntz, comp.sys.amiga.programmer, 04/09/1993   
+
+"From a programmers point of view alone, MUI is heaven. Everything is so 
+much easier than using gadtools. MUI isn't slow, either."
+Hans-Joerg Frieden, comp.sys.amiga.programmer, 02/04/1994
+
+"I like MUI for its configurability and ease of programming, and hence I use it.
+[...]GadTools gadgets suck. The can't resize without being removed first, and
+that something I don't like. Also, you have to control the keyboard, too,
+which is in my opinion a waste. Additionally, most people use GadTools with
+a hardcoded font and position, because gadtools (and even BOOPSI without a
+layout engine) encourages fixed coordinates. There is no way to use the font-size
+directly to position your gadgets.[...]
+I do not like the MAGIC prefix, either. But then, I don't judge a program
+by its name, or else I would consider the BOOPSI concept a VERY bad one."
+Hans-Joerg Frieden, comp.sys.amiga.programmer, 11/04/1994
+
+"[...]Its imperative for it (MUI) to be as *flexible* and as *extendable* as
+ possible."
+Stephan Stunz, comp.sys.amiga.programmer, 14/04/1994  
+
+
+4.1 Tools to use to get a graphical interface on Amiga
+
+A modern user application offers its features through the use of a
+graphical interface. In practice, nowadays a "high level" programmer
+(who develops programs without accessing low level resources) should
+only use features offered by BOOPSI, using GadTools and Intuition
+functions only if there are no viable high-level alternatives, such
+ready to use BOOPSI classes. The use of functions GadTools or other
+similar primitive entails a waste of energy for writing the code, and
+the final result in many cases may not be consistent with the rest of the
+Amiga graphics. In order to use BOOPSI, some concepts about object
+oriented programming must be clear.
+
+
+
+4.1.1 Pills of object oriented programming
+
+This paragraph is addressed to those who have not familiarity with
+object oriented programming, then who has already familiar with words
+such instance, object, inheritance can directly go to next paragraph.
+
+Object oriented programming is based on concepts like classes and
+objects, which are very close to the way of thinking in human beings.
+
+Consider for example the way in which man has classified the
+living beings. We have for example animals, mammals, cats. A cat could
+be Sylvester, your neighbour's cat. Sylvester is a cat which we refer in
+particular, but if we talk about cats then we refer to a General family
+of animals, in other words a "class" of animals. A class is a generic
+entity which brings together the common characteristics, in our case we
+know that cats have an age, the fur of a certain color and so on.
+An object is a specific representation of a particular entity, in our case
+we know that Sylvester is a black cat a year old. In other terms, Sylvester is
+an "object". In a class we can identify structural and behavioural
+characteristics, in the former case we refer to them with the "attributes" term,
+while in the latter we talk about "methods". The attributes of a cat are its colour,
+its age, etc, while the methods in a cat should be its active actions, such as
+running, meowing and eating.
+A class can be seen as the matrix from which a particular thing is generated: the
+object. The process of generation of an object is called "instantiation", and so
+an object is an instance of a class.
+
+There are generic classes, such as mammals, and more specific classes, such as
+the cat. Generally classes are developed following a hierarchy starting from
+very generic classes to more specific classes, through a sort of relationship
+that involves a definite group of classes. In our example we could say that the
+"cat" class is the daughter of the "mammal" class.
+
+The relationships between different classes are featured by a special
+characteristic: a child class is provided with the characteristics of the
+mother class, adding also new ones. This mechanism is called hierarchy. In our
+case, for example, mammals have breasts and eat, characteristics inherited
+from mammals, they also have whisker, claws and meows.
+
+In object oriented programming, each class has two special methods, called
+constructor and destructor. The constructor is usually the method that
+initializes an object instanced from a class, while the destructor releases
+the memory the object was using. There are also the so called setter and getter
+functions, used to read and write object attribute values. Using getter and
+setter functions the object oriented philosophy implements the encapsulation
+concept: the need to protect internal data of a module, handling them through
+special methods that check if inserted datas are correct. Obviously, getter
+and setter methods would be used to their maximum if there were a system
+to hide the attributes of a class from the outside. To this purpose, OOP
+philosophy offers the chance to define such attributes as "private", that are
+not directly accessible from the outside. Obviously, to private attributes
+counteract "public" attributes, that is attributes accessible from outside.
+Again, private attributes are not inherited by child classes.
+
+During the process of inheritance, where classes daughters inherit methods by
+upper classes, you can have problems of inconsistency. If we consider for
+example the class of birds and on the daughter class  of the Penguins, the
+latter in respect of rules of heredity will have its "fly" methods. As we know
+the Penguins doesn't fly and this is a typical example of inconsistency
+in the process of inheritance. To resolve this and other problems it's possible
+to redefine the behavior of a method that the child class has inherited from
+the mother class, this process is called method "overriding". In the exposed
+example, the "fly" method called from a penguin object may have been
+reimplemented in the penguin class in order to behave as if it were called a method
+for swimming. Not all methods of a superclass must be inherited in the subclass,
+there are in fact private methods, which can be used only by instances of class
+in which they are. Inside a class other classes can be defined also, which can
+be public or private, in the latter case we will have the same behavior described
+for private attributes.
+
+Finally several objects communicate with each other by exchanging
+messages. A message in this case is the combination of a method to be
+invoked and any values of the attributes that this method should
+manipulate.
+
+4.2. BOOPSI and MUI: some history
+
+BOOPSI, Basic Object Oriented Programming System for Intuition, put the basis
+for object oriented programming on AmigaOS. The BOOPSI system is developed
+following a class hierarchy, which are related to a mother class: the
+rootclass. BOOPSI, since its birth, have a little number of classes, a bit
+extended with AmigaOS 3.0 (1992). Until then BOOPSI didn't have politics about
+the layout of graphical objects nor many other classes for the users, also
+some concepts about the interaction between classes and font handling were
+quite laborious, and even the look that produced the classes was not the best.
+While the small number of classes and the lack of policies for the positioning of
+the elements in a window gave enormous freedom regarding the management of
+the graphics application, not all were willing to support such an effort
+for the creation of a graphical interface. For these reasons, in 1992 again,
+starting from the rootclass, a new solution composed of classes was developed,
+which solved a lot of the problems we have talked about, by adopting different
+solutions than those proposed by the few BOOPSI official classes. Such new
+classes were released with the name of "Magic User Interface", MUI was born.
+During the years, and through the long wait for a new version of the operating
+system, many programmers used MUI as an API for the development of their
+applications, allowing the system to become increasingly robust, comprehensive
+and versatile. Even if in 1995 there were new "pure" BOOPSI classes (ClassAct) -
+in other words new classes extending the original BOOPSI system following the
+philosophies of AmigaOS classes - MUI had been taken off the consent of 
+Developers, and the number of applications written using ClassAct never 
+exceeded those developer with MUI. This situation considerably slowed down the
+development of new ClassAct classes and the debugging of the classes of that
+distribution, while at the same period new third party MUI classes were born,
+which offered many modern features to programmers, MUI "core" classes also 
+became increasingly robust with the release of new versions of the distribution.
+In 1999, a new AmigaOS version (3.5) was finally distributed. It officially
+incorporated a new ClassAct version, called Reaction. However, even this try
+to address developers to a more "pure" BOOPSI didn't led programmers to abandon
+MUI. In 2001, with the release of AmigaOS 3.9 which included new Reaction
+classes, MUI was choosen by MorphOS as its official API for graphical interfaces
+and in 2002 MUI was reimplemented by AROS, and renamed Zune. In 2004, the
+prerelease version of AmigaOS 4 was release, this operating system is equipped
+both with new Reaction classes and with an OEM distribution of MUI, providing
+the programmers with both solutions. At the end, although Reaction classes
+have been greatly improved and developed in recent times, they are not available
+on AROS and MorphOS and have many gaps and bugs on AmigaOS3.x, they also not have
+the same functionality and robustness of the corresponding MUI classes, and the
+number of classes available to Reaction programmers is lower than the MUI classes.
+That is why the choice for an Amiga programmer without specific needs is
+required: MUI must be used.
+
+4.3 BOOPSI programming
+
+In the previous paragraph we said that all BOOPSI classes are related to a
+single mother class called rootclass. The rootclass defines a set of methods,
+some of them have to be implemented on the child classes. BOOPSI methods are
+classified by an identifier, called MethoID. The "pure" BOOPSI methods,
+declared in <intuition/classusr.h>, that we will consider now are:
+
+- OM_NEW: constructor;
+- OM_DISPOSE: destructor;
+- OM_SET: setter method;
+- OM_GET: getter method;
+
+Each MethodID has a prefix, OM on the four listed methods, which stands for
+"ObjectMethod". As we know, the object oriented philosophy requires that
+interaction with an object is made through messages. A BOOPSI message, called
+"Object Packet", is made by the MethodID of the method to invoke and by the
+parameters it accepts. For example, the object packet of the OM_NEW and OM_SET
+methods is the following structure (defined in <intuition/classusr.h>):
+
+struct opSet{
+
+  STACKED ULONG MethodID;
+  
+  STACKED struct TagItem *ops_AttrList;
+  
+  STACKED struct GadgetInfo *ops_GInfo; 
+}
+
+The first element of the structure is the MethodID, the second is a pointer to
+a list of attributes and corresponding values to assign to, while the last
+member is not useful for our guide, we only need to know that it must be set to
+NULL in our examples.
+
+As we just said, the second element of the opSet message is a pointer to a list,
+but what is the TagItem structure? A TagItem, or more shortly tag, is a couple
+of values defined in <utility/tagitem.h> in this way:
+
+struct TagItem {
+  STACKED ULONG ti_Tag;  /* Tag identifier, in other words the name      */ 
+                         /* of the object's attribute;          */
+           
+  STACKIPTR ti_Data;     /* The value to assign to the tag, 
+                         /* that is the value to assign to the object's attribute;*/
+}
+
+
+However, is very common to handle with more tag at the same time, for this reason
+they are saved in an array, called tag list.
+
+In practice, an application sends a message to an object using the AmigaOS 
+function called DoMethodA(), or its variation DoMethod().
+
+Such functions are declared in <clib/intuition_protos.h> on OS4, and are called
+IDoMethodA() and IDoMethod(), while in all other amiga oses their declarations
+are in <clib/alib_protos.h>. However, on OS4 these functions can be called
+using the "old" name without the "I" prefix.
+
+If, for example, we want to modify an object attribute, we should write:
+
+struct TagItem taglist[] = {{Attribute_ID, Attribute_Value},{TAG_END,0}};
+struct opSet msg = {OM_SET,taglist,NULL};
+DoMethodA (object, (Msg)&msg);
+
+In the first row we created a tagList made by two tags, the first is the
+attribute we want to modify, the second tag is a control attribute, in other
+words we tell the system that the taglist is over. In this case we can use
+both TAG_END or TAG_DONE. in the second row we build the actual BOOPSI message,
+made by the MethodID, by the attribute/value list to assign and by the third
+member of opSet that, as we said, must be set to NULL in our case. In the third
+row we only send the message to our object. There is a shorter method to do this,
+using the DoMethodA() variation called DoMethod():
+
+struct TagItem taglist[] = {{Attribute_ID, Attribute_Value},{TAG_END,0}};
+DoMethod(object, OM_SET, taglist, NULL);
+
+This method is quite laborious and its use is not recommended in practice. There
+intuition's functions that are made to call these BOOPSI methods, doing the
+right initializations. Such methods are:
+
+- NewObject()     : calls OM_NEW;
+- DisposeObject() : calls OM_DISPOSE;
+- SetAttrs()      : calls OM_SET;
+- GetAttrs()      : calls OM_GET;
+
+Let's modify the last example:
+
+struct TagItem taglist[] = {{Attribute_ID, Attribute_Value},{TAG_END,0}};
+DoMethod(object, OM_SET, taglist, NULL);
+
+it becomes:
+
+SetAttrs(object, Attribute_ID, Attribute_Value, TAG_END);
+
+The calling of such functions requires the passage of tag in the argument list
+of the function itself, this passing way is called "varargs": a function is
+varargs when it accepts a variable number of arguments.
+
+Handling variable parameters in C language requires accurate rules,
+(http://publications.gbdirect.co.uk/c_book/chapter9/stdarg.html) which
+affect the API of all the incarnation of AmigaOS, so we'll deepen this
+topic later. (SDI_stdarg.h) 
+
+Not all methods explained at the start of this paragraph can be applied to
+every attribute of an object, there are some not configurable, not readable
+and not initializable attributes. To indicate the applicability of a
+method on an attribute some flags are included in the documentation of a
+boopsi class:
+
+- I: If present, the attribute is manipulable by OM_NEW;
+- S: If present, the attribute is manipulable by OM_SET;
+- G: If present, the attribute is manipulable by OM_GET;
+
+There are other flags that we've not considered, which refer to methods that
+we have still not examinated.
+
+
+4.3.1 Instantiating a BOOPSI class
+
+As you surely have intuited from the previous paragraph, we must use the
+Intuition function NewObject() to instantiate a boopsi class, its declaration
+is the following:
+
+APTR NewObject(struct IClass *privateclass, 
+           UBYTE *publicclassID, 
+           unsigned long tag1, ...);
+
+The reading of the first two parameters should confuse who have never used
+Amiga, so it's better to introduce private and public BOOPSI classes. A
+private class in BOOPSI is a class without a name, but a simple ASCII value.
+A private class is *mostly* created by the user to be used only in his
+application, while a public class is associated with an ASCII name and so
+can also be accessible by other applications beyond one that contains the
+declaration and implementation.
+
+Let's return to the NewObject() function, if we pass NULL to the first
+parameter, the function will realize that it must create an instance of a
+public class, and for this reason it will ask the name of this class as
+an ASCII value in the second parameter. Viceversa, if we want to instantiate
+a private class, we have to pass a pointer to the private class to instantiate
+as first parameter in NewObject(), we will deal with this case later.
+NewObject is variable arguments function, in fact the second parameter
+accepts a tag list, which is built "on the fly" on the stack, following
+the varargs funcions rules. The NewObject() function returns a pointer to
+the instantiated object, or NULL if something went wrong. So, if we have a
+class whose ASCII name is "WindowPUB", with a "Title" attribute whose type is
+STRPTR (pointer to string), we will have something like this:
+
+Object *objWin; /* Declare a window object ;*/
+objWin = (Object *) NewObject(NULL, "WindowPUB", 
+                   Title, "This is a Window", 
+                  TAG_DONE); 
+
+We will do the following to release the memory used by this boopsi object:
+
+DisposeObject(objWin);
+ 
+The original BOOPSI project stated that for every call to the constructor
+of a class there is sooner or later a call to the destructor
+of the same class. However, with the new classes, manual calls to every
+class destructor are very rare: if a class allow to connect other objects
+to its instance (see the following chapter), the calling to the
+DisposeObject() function of that class instance will recall the destructor
+for every object connected to that instance. In other words, we will have
+a cascade deallocation.
+
+
+4.3.2 BOOPSI: adding an object to another object
+
+In the previous chapter we mentioned some BOOPSI object that allow to
+be connected to other objects. It's probably better to talk about objects
+contained by other objects. The "containment" is another type of hierarchical
+relationship in the latest BOOPSI releases, where the contained object becomes,
+in some manner, "child" of its container. If, for example, we want a window
+with buttons inside, we simply have to instantiate a window object and some
+button objects and add these to the just instantiated window object. So, the
+button objects are somehow childs of the window object. This is, in other terms,
+more a logic relationship than phisics. The handling of the containment in
+BOOPSI is committed to two methods of the rootclass:
+
+- OM_ADDMEMBER: add an object to another object;
+- OM_REMMEMBER: removes a specific object from another object;
+
+For example, if we want to add a button object objBut (public class "ButtonPUB"
+with a "Label" attribute) to the window object objWin we will do the following:
+
+Object *objBut; /* we declare a button object  */
+objBut = (Object *) NewObject(NULL, "ButtonPUB", 
+                Label, "Push me!", 
+                  TAG_DONE);
+                   
+DoMethod(objWin, OM_ADDMEMBER, objBut); 
+
+Otherwise, if we want to remove that button from the window:
+
+DoMethod(objWin, OM_REMMEMBER, objBut); 
+
+In this last case we must take care during the release of the resources, because
+after disconnecting an object from another we obviously must call explicitly
+DiposeObject() on the disconnected child object, otherwise the memory will not
+be released:
+
+DisposeObject(objBut);
+
+
+4.4 From BOOPSI to MUI 
+
+Adding objects to another objects would be an useless feature if such objects
+don't supply functions to the user. A user would not like to press a button
+without obtaining some results. Following the OOP programming, an object
+could interact with another through an exchange of messages, or in other
+conditions, the handling of an object by an user could lead to the execution
+of one or more methods. In all these cases we talk about "event notification".
+The notify handling on "pure" BOOPSI is quite particular: we must involve two
+methods from the rootclass called OM_UPDATE e OM_MODIFY, we must instantiate two
+child classes of the rootclass called icclass e modelclass and, at the end, we 
+must use the ICA_TARGET and ICA_MAP attributes of these two classes. Moreover,
+there are other implementation details to follow that make this work a bit
+laborious. Moreover, if we want to program following the standard OOP, so
+developing with sub classes, "pure" BOOPSI forces to a number of arrangements
+to follow that lead the programmers' efforts to the graphical interface instead
+of the application itself.  
+Another important thing when you uses a "pure"
+BOOPSI programming it's given by difficults to implement GUIs which follow
+Multiple Document Interface philosophy (MDI), which is based many ways on the
+add and remove of graphical objects on the fly. This lack of "pure" BOOPSI
+programming will force you to implementation of GUIs based on multiple
+windows, a philosophy very diffused in the middle of '90 ages. 
+Another problem not easly solvable with "pure" BOOPSI programming is object 
+managment focus, more precisely when many graphical objects want to control 
+shortcuts from keyboard in the same GUI. Behaviour of "pure" BOOPSI assigns 
+all inputs to object focused, so if this object doesn't provide any support 
+for a kind of shortcut, this one will be not managed. In other words on "pure" 
+BOOPSI is absent input inheritance between objects. In the end on "pure" BOOPSI
+programming is absent drag&drop support between graphical objects of a GUI,
+and so you can't implement a GUI where user can set as he wants GUI
+dragging and dropping UI components into windows of your program (like it
+happens on Firefox UI). Sure you can write from scratch this kind of thing into 
+your "pure" BOOPSI application, but it's not easy and it taken you too much time... 
+Luckily the Amiga universe offers a solution to all
+there problems: the using of the Amiga Users' most loved and hated GUI, in other
+words: MUI.
+
+
+4.4.1 MUI: overview
+
+As we already mentioned, MUI is a collection of classes, which are linked
+following a complex hierarchy that starts from the Notify and Semaphores MUI
+classes, both childs of the rootclass. By now, we will focus only on the Notify
+class and all its subclasses. The Notify class implements a new mechanism for
+the notify of the events, which is inherithed by all its subclasses, following
+OOP rules. Classes we are talking about are reported in the following simple
+graph:
+
+ rootclass                    
+ +--Notify                  
+ !  +--Family                
+ !  !  *
+ !  !      
+ !  +--Application
+ !  !           
+ !  +--Window               
+ !  !  * 
+ !  !        
+ !  +--Area                 
+ !  !  +--Group
+ !  !  *  *
+
+Family is a generic class whose instances are able to keep objects
+containing other objects. In other words, an instance of Family could
+contain some Menu objects, that could contain other menu voices or
+other menus as well.
+Application is a class whose instance represents an application that
+runs on the system, which can have a variable number of windows (Window
+class instances).
+
+Finally, the Area class is the mother of all other MUI gadgets and handles
+all their informations, such as their dimensions, their look and their
+positions. The Area class handles user inputs too. It's important to notice
+that Area doesn't set the position of the elements inside one of its instances,
+because Area is a generic class which can be user to build more complex gadgets.
+Layout handling is performed by a child class of Area, called Group.
+Theorically, all these classes should have a direct relationship, in other
+words, Area should be child of Window, which should be child of Application
+which should be child of Family. The author of MUI says that a direct
+relationship between these classes wasn't possible to implement, due to some
+BOOPSI limits. By the way, an instance of Application can contain one or
+more instances of Window, some for Family-->Application and Window-->Area,
+partially solving the non-phisical relationship problem.
+
+Each MUI class is identified by a name preceded by "MUIC_" string, a class
+attribute is identified by the "MUIA_" prefix, a method is identified by
+the "MUIM_" prefix and so on... All the BOOPSI rules we talked about regarding
+the methods of the rootclass are valid on MUI too, even if this set of API
+provides the programmer with an alternative way for the object instantiation
+and destruction. So it's possibile to use muimaster.library's MUI_NewObject()
+and MUI_DisposeObject() methods instead of NewObject() and DisposeObject(),
+we compare their use using, for example, the MUIC_Window class:
+
+objWin = (Object *) NewObject(MUI_GetClass(MUIC_Window), NULL, 
+                                  MUIA_Window_Title, "This is a Window", 
+                              TAG_DONE);
+            
+Becomes:            
+            
+objWin = (Object *) MUI_NewObject(MUIC_Window, 
+                                      MUIA_Window_Title, "This is a window", 
+                                  TAG_DONE); 
+            
+Firse of all, we notice that in the first case that any MUI class is seen
+as a BOOPSI private class. The instantiation occurs after getting the
+pointer to the MUI class using the MUI_GetClass() method. Such procedure can
+be problematic sometimes, in fact MUI_GetClass() keeps opened the class we are
+looking for a pointer of, until the FreeClass() function get called, so
+distraction errors could generate errors in the code. MUI_NewObject() solves
+the problems of MUI class opening and closing, so a single use of a call to
+DisposeObject() or MUI_DisposeObject() allows to put the system into initial
+status. Again, if MUI_NewObject() will not be able to instance an object
+containing more object previously instanced, it will deallocate these
+objects.
+
+
+4.4.2 MUI: An example of a simple graphical interface
+
+Let's try to build a simple graphical interface with mui, we want to get
+a window with a string as first element, and a button beneath it as second
+element. Using mui classes we will have the following situation regarding
+the button:
+
+
+Object *button= MUI_MakeObject(MUIO_Button, "Click me!");
+
+As you can see, we don't instantiate an object from a class, but we
+get an object from a so called "prebuilt object". We talked about how
+the Area class handle user input, this class can react to to some input
+in a variety of ways, such as reacting like it was a button, or something
+totally different. This is why MUI doesn't have a generic button class,
+in fact on MUI a button is an instance of the MUIC_Text class with a border
+as attribute and an assigned behaviour to react to the release of a mouse or
+keyboard button. In such way, it's very simple to create more complex
+gadgets, but it should be awkward to build a simple button. For this reason,
+MUI provides pre built objects, ready for use. These objects are identified
+by the "MUIO_" prefix. The MUI_MakeObject() function takes a prebuilt object
+as first parameter, and its optional parameters, that aren't a tag list
+(so there isn't TAG_END or TAG_DONE as last parameter). This is how we
+instantiate a String from the MUIC_String class:
+
+
+Object *string = MUI_NewObject(MUIC_String, 
+                                    MUIA_Frame, MUIV_Frame_String, 
+                                    MUIA_String_Contents, (IPTR) "Click on the button...", 
+                                TAG_DONE);
+      
+Please notice the MUIA_Frame attribute that allows to define the border
+in which our string will be put.
+
+As we mentioned, to delegate to MUI the gadget layout we must use the MUIC_Group
+class:
+
+          
+Object *group = MUI_NewObject(MUIC_Group,
+                                   MUIA_Group_Child, string,
+                                   MUIA_Group_Child, button,
+                               TAG_DONE);
+
+The default layout puts all the objects joined to an instance of MUIC_Group in
+the same column, in which the first inserted element will be the first element
+at the top of the column. To change the layout we must work on the attributes
+provided by the MUIC_Group class, we recomend you to read the relative documentation.
+
+At the end, we can instantiate our window:
+
+Object *window = MUI_NewObject(MUIC_Window,
+                                     MUIA_Window_Title, "My Window",
+                                     MUIA_Window_ID ,MAKE_ID('M','a','i','n'),
+                                     MUIA_Window_RootObject, group,
+                                 TAG_DONE);
+
+In this last instantiation process we can notice the MUIA_Window_ID attribute,
+which allows the system to identify the window with an ID (using the MAKE_ID()
+macro our characters will be condensed in an ULONG. This macro is in
+<libraries/iffparse.h>). This attribute is important if the user wish to save,
+for example, the size of the program window, everything will be done in a
+transparent way from the programmer view.
+We must take care of the is the MUIA_Window_RootObject attribute. It says what
+the windows is going to contain (in other words, his child), usually a group,
+if you need to display multiple gadgets. A MUIC_Window object can have only one
+child.
+
+As we previoulsy sayd, we must assign a MUIC_Application object to our window:
+
+
+Object *app = MUI_NewObject(MUIC_Application,
+                                MUIA_Application_Title  , "ShInKy Tutoral GUI",
+                                MUIA_Application_Base  , "ShInKyTutorialGUI",
+                                MUIA_Application_Description, "MUI GUI Example",
+                                MUIA_Application_Window, window,
+                            TAG_DONE);
+
+MUIA_Application_Title is used by the system as application name, which will
+be displayed to the user, while MUIA_Application_Base is the name used by
+the system to identify the application. MUIA_Application_Description is the
+description the system will give to the user about our application.
+Now you can make the window visible (in other words, to open it) setting the
+MUIA_Window_Open attribute to TRUE, in this way:
+
+SetAttrs(window, MUIA_Window_Open, TRUE, TAG_DONE);
+
+We must say that a MUIC_Window object exists only in the context of a
+MUIC_Application object, this means that you cannot make your window visible
+until you add it to your application object, otherwise you will get a crash.
+
+We started the building of this graphical interface from the innermost element,
+to the outermost, having care to avoid passing a NULL pointer to the just
+exposed MUIA_Group_Child, MUIA_Window_RootObject and MUIA_Application_Window
+attributes. It's time to go back to the rootclass' OM_ADDMEMBER method we
+have previously described (4.3.2), which allows us to build our interface as
+follows:
+
+
+Object *app = MUI_NewObject(MUIC_Application,
+                                MUIA_Application_Title  , "ShInKyButton",
+                                MUIA_Application_Base  , "ShInKyButton",
+                            TAG_DONE);
+
+Object *group = MUI_NewObject(MUIC_Group, TAG_DONE);
+
+
+Object *string = MUI_NewObject(MUIC_String, 
+                                    MUIA_Frame, MUIV_Frame_String,
+                                    MUIA_String_Contents,(IPTR) "Press the button...",
+                                TAG_DONE);
+        
+Object *button= MUI_MakeObject(MUIO_Button, "Cliccami!");
+
+DoMethod(group, OM_ADDMEMBER, string);
+DoMethod(group, OM_ADDMEMBER, button);
+
+
+Object *window = MUI_NewObject(MUIC_Window,
+                                     MUIA_Window_Title, "My Window",
+                                     MUIA_Window_ID ,MAKE_ID('M','a','i','n'),
+                                     MUIA_Window_RootObject, group,
+                                 TAG_DONE);
+
+
+DoMethod(app, OM_ADDMEMBER, window);
+
+With this method we can add child objects to other objects
+after their instantiation. If we want, for example, to remove our window
+from memory, we have to follow these steps:
+
+SetAttrs(window, MUIA_Window_Open, FALSE, TAG_DONE); /*close the window;*/
+
+DoMethod(app, OM_REMMEMBER, window); /*remove the window object       */
+                                       /*from the application object;          */
+
+If we want to add new MUIC_Group objects to a window we must close it first,
+while if we want to add or remove objects from a MUIC_Group instance, we must
+explicitly notify these actions to MUI. To do this, we must surround the code
+in which we will perform the removal or addition of elements in the group
+through the use of the MUIM_Group_InitChange method, notifying the end of the
+changes invoking the MUIM_Group_ExitChange method:
+
+DoMethod(group, MUIM_Group_InitChange);
+.
+.
+.
+/*changes*/
+.
+.
+.
+DoMethod(group, MUIM_Group_ExitChange);
+
+
+Feel free to choose the creation and removal method, following your needs.
+
+4.5 MUI: Notifications
+
+In 4.4 we talked about the notification concept. A graphical object can
+react to an user action, performing an action that can involve other
+graphical objects. Following the example in the previous paragraph, we now
+want the content of the string and the button to change when we right click
+on the button. To obtain this, MUI uses the MUIM_Notify method of the
+class with the same name, and since almost alla MUI classes are child of
+MUIC_Notify, all our instances can use the MUI notification system.
+MUIM_Notify method can be used using three different techniques: an AmigaOS
+standard called "callback hook", notification through methods inside our
+private classes, or using notificable attributes. For now, we will deal with
+the first technique, we will see the other (more OOP compliants) later.
+
+
+4.5.1 MUI: Notifications with callback hook
+
+The philosophy under the callback hook involve the extension of a module
+(a library, a device, a class, etc...) through the hooking of new
+functions. To obtain this, a new function is hooked to a module using a
+structure called Hook. The Hook structure is different in the various
+AmigaOS flavours, so to keep compatibility, we will use the SDI tools
+(see Chap 1), specifically an header called SDI_hook.h. In practice,
+using SDI_hook.h, we can build the function to hook and its relative hook
+in this way:
+
+/*Function to hook*/
+HOOKPROTO(NameOfTheFunction, 
+          ReturnValue,
+          ObjectToHandle,
+          ParametersToReceive);
+{
+....
+}
+/*Hook to be used*/
+MakeHook(HookName, NameOfTheFunction);
+
+SDI_hook.h allows us to choose between different ways to create functions
+and to create hooks, we suggest the reading of this header for further details.
+
+Following the example in the previous paragraph, we first write the hookPutVal()
+function, able to perform the change of the attributes of the button and string
+objects, then we write the relative Hook called buttonHook:
+
+HOOKPROTONO(hookPutVal, void, APTR *data)
+{
+
+  Object *button, *string;
+  
+  button=(Object *) *data++;
+  string=(Object *) *data++; 
+    
+  SetAttrs(string, 
+           MUIA_String_Contents,
+           (IPTR) "Button clicked!",
+           TAG_DONE);
+     
+  SetAttrs(button, 
+           MUIA_Text_Contents,
+           (IPTR) "Clicked!",
+           TAG_DONE);
+     
+  SetAttrs(button, 
+           MUIA_Disabled,
+           TRUE,
+           TAG_DONE);
+
+      
+}
+MakeStaticHook(buttonHook,hookPutVal);  
+
+As you can see in the function declaration, we are using the "NO" variant
+provided by SDI_hook.h, that allows us to avoid using the parameter
+regarding the object to manipulate, in fact in this case we are dealing
+with two objects. These objects are passed by address, more precisely the
+"data" variable contains the parameters received by the calling program,
+whose first parameter passed with data is the hook address. To obtain
+the address of the first object passed to the function after the hook, we
+shift a position in memory (*data++), in this new position the system
+have put the address of the first object. We proceed in this way for the
+following objects too, in this case we have only a button and a string.
+At this point, we got all the data we need to handle mui objects:
+we then proceed to three calls to SetAttrs(), the first allow us to put
+the "Button clicked!" text inside out MUIC_String object, the second 
+changes the text inside the button, the third makes the button disabled.
+The hooking of the function to an object is made with the MUIM_CallHook
+method, addressed by MUIM_Notify:
+
+DoMethod(button,  MUIM_Notify, 
+                  MUIA_Pressed, FALSE,
+                  MUIV_Notify_Self,
+                  4,
+                  MUIM_CallHook,
+                  &buttonHook,
+                  button,
+                  string);
+
+Using DoMethod() we call the MUIM_Notify method, that allows to bind a
+notification to an object. This method takes the following parameters:
+
+- the object that will activate a notification;
+- the attribute of the object to control in order to activate a notification;
+- the object on which the notification method will be executed;
+- the number of parameters passed to the notification method;
+- the notification method;
+
+In our example:
+
+- MUIM_Notify is called on our button;
+- MUIA_Pressed is checked to be FALSE, that is the release of the button after
+  being pressed;
+- The notification method must be applied on the button itself (MUIV_Notify_Self);
+- The number of parameters for the notification method: 4;
+- Notification method: MUIM_CallHook;
+
+To be honest, the 4 number tells how much parameters are found after
+the MUIV_Notify_Self value. Obviously, who writes the function for the hook
+must know the number of parameters will be passed from DoMethod() to the
+hook function, otherwise he will lead to disasters with the pointer operations
+we previously explained.
+
+The applicability of the notification method, in our case MUIM_CallHook, is
+ruled by MUIM_Notify through a predeclared value in the mui system. Generally,
+a mui value is identified by the "MUIV_" prefix, in the MUIV_Notify case we
+can choose from:
+
+- MUIV_Notify_Self: the object itself on which the MUIM_Notify method is called;
+- MUIV_Notify_Window: the MUIC_Window instance that contains the object;
+- MUIV_Notify_Application: the MUIC_Application instance that contains the object's
+  mother window;
+- MUIV_Notify_Parent: the object's parent instance;
+
+The MUIM_CallHook method calls a hook function through the relative hook,
+in our case we have buttonHook as our hook, whose hooked function hookPutVal()
+receives button and string as parameters.
+
+4.5.2 MUI: closing window and the old notify method with ReturnID
+
+Even the application closing using the close gadget at the top of the
+window is handled with the MUIM_Notify method. Following the example in
+the previous paragraph, our window object is handled as following:
+
+
+DoMethod(window, MUIM_Notify, 
+                   MUIA_Window_CloseRequest, TRUE,
+                   MUIV_Notify_Application,
+                   2,
+                   MUIM_Application_ReturnID,
+                   MUIV_Application_ReturnID_Quit);
+
+This time we are telling the system that then the MUIA_Window_CloseRequester
+attribute turns TRUE (so the user clicked the close window gadget), on the
+MUIC_Application (MUIV_NotifyApplication) the window object relates to, it
+must execute the MUIM_Application_ReturnID method, passing the
+MUIV_Application_ReturnID_Quit value to it.
+
+MUIM_Application_ReturnID is a method that "forces" the MUIM_Application_(New)Input
+method to return a return value, in our case the next call to MUIM_Application_Input
+will return MUIV_Application_ReturnID_Quit.
+
+MUIM_Application_Input is a method, now obsolete, used to catch all the
+return values associated to user inputs on a MUI application. This involved
+the use of a big control cycle, in which every return value of a MUI interface
+were checked. This technique is the same of the "pure" BOOPSI programming and
+assigns the input controlling to the application itself. Even if in some
+situations, using Reaction classes, this kind of handling can be avoided, on
+"pure" BOOPSI a big control cicle is the standard way of handling with inputs.
+MUI keeps a similar method for backward compatibility with older applications and
+only to handle the close gadget of the window. More precisely, 
+a faster version of MUIM_ApplicationInput is used for this goal, called
+MUIM_Application_NewInput; In practice, we will have the call to
+MUIM_Application_ReturnID with:
+
+IPTR sigs = 0;
+while (DoMethod(app,MUIM_Application_NewInput,(IPTR)&sigs) != MUIV_Application_ReturnID_Quit)
+{
+  ;
+}
+
+Basically we check that MUIM_Application_NewInput returns in the sigs variable
+a value different from MUIV_Application_ReturnID_Quit. Otherwise the while
+loop would exit, allowing the application to follow closing operations. Is a
+common practice to add a control for the interrupt signal CTRL+C inside that
+while loop, in order to have the closing of the application when it's launched
+from the command line (Shell) with the CTRL+C keys.
+
+while (DoMethod(app,MUIM_Application_NewInput,(IPTR)&sigs) != MUIV_Application_ReturnID_Quit)
+{
+  if (sigs)
+  {
+    sigs = Wait(sigs | SIGBREAKF_CTRL_C);
+    if (sigs & SIGBREAKF_CTRL_C) break;
+  }
+}
+
+To learn about the Wait() function and the SIGBREAKF_CTRL_C see paragraph 5.1
+
+
+4.5.3 Zune and MUIM_Application_Execute
+
+In the previous paragraph we described a while loop to check for the application
+closing, usually called "main loop".
+Zune offers the programmer the chance to not declaring a main loop, leaving the
+closing task to a new method, MUIM_Application_Execute. Basically this method
+hides the use of the main loop from the programmer, making everything look more
+readable and modern. Its syntax is simply:
+
+DoMethod(app, MUIM_Application_Execute);
+
+We let to the reader the implementation of a portable MUIM_Application_Execute.
+Informations useful for such implementation will be explained later.
+
+
