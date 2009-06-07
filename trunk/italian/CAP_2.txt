@@ -465,7 +465,7 @@ valide a disposizione dell'utente sono:
 
 -  BareED, BlackEditor e TuiTED su OS3.x;
 -  BareED e Annotate su OS4;
--  MorphED su MorphOS (E' una vecchia versione di CubicIDE OEM);
+-  BlackEditor, MorphED su MorphOS (E' una vecchia versione di CubicIDE OEM);
 -  JanoEditor su AROS;
 
 Tutti questi TextEditor offrono le principali caratteristiche che ci si 

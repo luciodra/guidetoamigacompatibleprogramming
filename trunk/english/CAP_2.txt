@@ -410,7 +410,7 @@ freeware "alternatives" available are:
 
 -  BareED, BlackEditor and TuiTED on OS3.x;
 -  Annotate on OS4;
--  MorphED on MorphOS (It's an old version of CubicIDE OEM);
+-  BlackEditor, MorphED on MorphOS (It's an old version of CubicIDE OEM);
 -  JanoEditor su AROS;
 
 All these TextEditors offers the main features you can expect from,
