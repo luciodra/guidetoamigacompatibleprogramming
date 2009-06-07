@@ -104,15 +104,11 @@ strettamente. I programmi linux sono tutti scritti per il gcc e NON sono
 ANSI-compliant. E visto che oggigiorno quasi tutti i programmatori amiga si
 limitano a fare porting da linux, gcc (e magari tutta la suite di emulazione
 completa, compresi geek gadgets etc) sono per molti la scelta più comoda se
-non addirittura obbligata. Io lo dico perchè ne so qualcosa...! 
+non addirittura obbligata.
 [...]quando ti trovi programmi fatti su linux che usano funzioni della
 libreria C posix o gnu, che NON fanno parte della libreria C "standard" è
 davvero un disastro adattare i sorgenti. E' per questo che se usi il gcc
-(e magari ixemul ;) te li compila. [...]
-Poi, per quanto riguarda il c++ non lo prenderei nemmeno in considerazione, 
-perchè gli os amiga-like NON sono O-O, e scrivere un programma c++ per un sistema 
-non O-O, per poi magari rinchiudere tutto il codice procedurale principale in una
-classe che serve solo da contenitore dummy non ha praticamente senso."
+(e magari ixemul ;) te li compila. [...]"
 
 Come da tradizione, il GCC per AmigaOS3.x è rimasto alla versione 2.9.x, e la sua 
 istallazione e configurazione da zero su questa incarnazione Amiga 
