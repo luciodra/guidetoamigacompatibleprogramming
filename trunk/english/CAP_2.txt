@@ -78,6 +78,21 @@ developers discontinued the development of this compiler and, even if the
 road was clear, amiga users continued to use SAS-C. Even if in the last times
 a multiplatform Amiga compiler is gaining user, vbcc, which supports only C
 language, every new incarnation of Amiga use GCC as its first standard compiler.
+
+Elena Novaretti in addition to this suggests to us:
+
+"[...] the real reason almost people use gcc is another one [...]: porting
+from linux. The GCC is NOT ANSI C, while vbcc is stricty ANSI C.
+Linux programs are almost written for gcc and NOT are ANSI-compliant. So, in
+these days all Amiga programmers merely to do linux porting, gcc (and all
+complete emulation suite, included geek gadgets etc) is for almost
+programmers most confortable choose if not even obliged.
+[...]
+when you find programs writton on linux which use posix or gnu C library, and
+these functions are not included into standard C library then it's a very
+disaster to adapt source to the Amiga. It's for this reason if you use gcc
+(and perhaps ixemul ;) you will are able to compile them[...]"
+
 As from tradition, GCC for AmigaOS3.x remained at 2.9.x version, and its
 installation and configuration might lead to the complete abandon of your
 ideas about programming on this platform.
