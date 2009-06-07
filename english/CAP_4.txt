@@ -634,7 +634,7 @@ DoMethod(app, OM_ADDMEMBER, window);
 
 With this method we can add child objects to other objects
 after their instantiation. If we want, for example, to remove our window
-from memory, we have to follow these steps:
+from app object, we have to follow these steps:
 
 SetAttrs(window, MUIA_Window_Open, FALSE, TAG_DONE); /*close the window;*/
 
