@@ -12,7 +12,7 @@ so on. It's a WONDERFUL design, and validates everything that people have
 been saying about microkernels. Yes, it takes more work to get them off the
 ground than a coroutine based macrokernel like UNIX, but the versatility
 pays you back many times over."
- 	 	
+        
 Peter Da Silva, The Tanenbaum-Torvalds Debate, 07/02/1992
 
 
@@ -30,7 +30,7 @@ All Amiga APIs are designed to be used with C language, or even 68k assembly if
 on OS3.x, but since we are in 21st century it's better to focus on the most
 famous medium-level language that everyone has heard at least once talk about.
 Assuming that you have mastery of concepts such as functions, pointers,
-structures, casting, API (Application Protocol Interface) ecc... Let's
+structures, casting, API (Application Programming Interface) ecc... Let's
 introduce some amiga related concepts.
 
 
@@ -104,29 +104,29 @@ create a requester, using the EasyStruct structure, defined in <intuition/intuit
 
 
 struct EasyStruct {
-    ULONG es_StructSize;    /* structure dimentsion      		   */
-    ULONG es_Flags;         /* usually set to 0				   */
-    UBYTE *es_Title;        /* requester's title	      		   */
-    UBYTE *es_TextFormat;   /* string inside the requester	     	   */
-    UBYTE *es_GadgetFormat; /* string inside the close button		   */
+    ULONG es_StructSize;    /* structure dimentsion                */
+    ULONG es_Flags;         /* usually set to 0                */
+    UBYTE *es_Title;        /* requester's title                   */
+    UBYTE *es_TextFormat;   /* string inside the requester             */
+    UBYTE *es_GadgetFormat; /* string inside the close button          */
 };
 
 and the Intuition's EasyRequestArgs() function, declared in this way:
 
 
 LONG EasyRequestArgs(struct Window *window,               /*window which the */
-							  /*requester belongs*/
-							  /*to;              */
-							  
+                              /*requester belongs*/
+                              /*to;              */
+                              
                      CONST struct EasyStruct *easyStruct, /*requester to     */
-		     					  /*open;	     */
-							  
+                                  /*open;        */
+                              
                      LONG *idcmpPtr,                      /*a particular     */
-		     					  /*event that closes*/
-							  /*the requester     */
-							  
+                                  /*event that closes*/
+                              /*the requester     */
+                              
                      CONST APTR args );                   /*optional         */
-							  /*arguments...;    */
+                              /*arguments...;    */
 
 we have to open intuition.library first. To perform this task an Exec's function
 called OpenLibrary() exists. When we close the program we need to close all the
@@ -237,7 +237,7 @@ int main(void)
     return 0;
   
   IIntuition = (struct IntuitionIFace *) IExec->GetInterface(IntuitionBase, 
-  							     "main", 1, NULL);
+                                 "main", 1, NULL);
   
   if (!IIntuition)
   {
@@ -295,7 +295,7 @@ int main(void)
   
   #ifdef __amigaos4__
   IIntuition = (struct IntuitionIFace *) GetInterface(IntuitionBase,  
-  							"main", 1, NULL);
+                            "main", 1, NULL);
   
   if (!IIntuition)
   {

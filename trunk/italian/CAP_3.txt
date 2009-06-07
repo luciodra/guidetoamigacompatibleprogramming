@@ -32,7 +32,7 @@ C, o addirittura l'assembly 68k nel caso di OS3.x, ma visto che siamo nel
 21esimo secolo è bene soffermarci sul più noto linguaggio di medio 
 livello di cui tutti hanno sentito almeno una volta parlare. Appurato 
 che abbiate padronanza di concetti quali le funzioni, i puntatori, le 
-strutture, casting, le API (Application Protocol Interface) ecc... 
+strutture, casting, le API (Application Programming Interface) ecc... 
 introduciamo adesso qualche nozione relativa ad Amiga. 
 
 
