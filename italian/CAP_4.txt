@@ -723,7 +723,7 @@ DoMethod(app, OM_ADDMEMBER, finestra);
 
 Con tale modalità è possibile aggiungere oggetti figli ad 
 altri oggetti dopo la loro istanziazione. Nel caso in cui ad esempio, 
-dopo il suo utilizzo, volessimo rimuovere dalla memoria la nostra 
+dopo il suo utilizzo, volessimo rimuovere dall'oggetto app la nostra 
 finestra seguiremmo tali passi: 
 
 SetAttrs(finestra, MUIA_Window_Open, FALSE, TAG_DONE); /*chiudiamo la finestra;*/
