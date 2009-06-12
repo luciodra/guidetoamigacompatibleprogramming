@@ -883,6 +883,8 @@ altamente modulari. Seguendo le regole della programmazione ad oggetti
 si ottengono inoltre dei moduli riutilizzabili in contesti differenti, e 
 la programmazione MUI non è un'eccezione. 
 
+What we have done until now is to instantiate classes which system gives us, without to know how we can create our ones. One of pourpose of Object Oriented Programming is to make applications which uses this philosophy highly modular. Following OOP rules it's possible to obtain reusable modules in different contexts, and MUI isn't an exception.
+
 Innanzitutto il motore che rende una classe BOOPSI (e MUI) un modulo 
 attivo è una particolare funzione chiamata dispatcher. Nel momento in 
 cui un oggetto BOOPSI riceve un messaggio, quest'ultimo viene 
@@ -893,6 +895,8 @@ richiamano la funzione dispatcher, difatti un oggetto BOOPSI è solo una
 struttura dati tipica del linguaggio C, la quale non potrebbe mai 
 svolgere un'azione senza l'intervento del dispatcher. 
 
+First of all heart which makes a BOOPSI (and MUI) class an active module is a particular function called dispatcher. When a BOOPSI object receives a message, this last one is checked by dispatcher function, which verify if it is able to manipulate received parameters into the message. This means all Intuition and MUI functions which we have seen until now call their dispatcher functions, in fact a BOOPSI object is only a typical C data struct, which could never execute something without execution of dispatcher function.
+
 Come sappiamo ciascuna classe BOOPSI è figlia di un'altra classe, tale 
 relazione di parentela si articola sino ad arrivare alla rootclass. 
 Ciascuna classe possiede una propria funzione di dispatcher, la quale, 
@@ -902,6 +906,9 @@ classe madre. Questo "rimbalzo" verso l'alto di parametri potrebbe
 arrivare sino al dispatcher della rootclass, il quale nel caso in cui 
 non riconoscesse uno dei parametri ricevuti risponderebbe al messaggio 
 con un codice d'errore. 
+
+How we know, each BOOPSI class is children of another class, this kindship is divided up to arrive to rootclass. Each class has a own dispatcher function, which, in case it wasn't able to know a received parameter, it should send that unknown parameter to dispatcher function of parent class. This "bounce" upward of parameters could arrive up to rootclass dispatcher, which reply to that message with an error code in case of unknown kind of received parameter.
+
 
 In altri termini il dispatcher è la funzione che richiama i metodi della 
 classe a cui appartiene, scegliendo quale metodo eseguire dall'analisi 
@@ -915,16 +922,20 @@ SDI_hook.h, chiamate DISPATCHERPROTO() e DISPATCHER(). DISPATCHERPROTO()
 è la macro usata per dichiarare il prototipo del dispatcher, accetta un 
 unico argomento, il quale è semplicemente il nome del nostro dispatcher: 
 
+So a dispatcher is a function which calls methods of membership class, choosing one of methods analizing received message. In simple cases dispatcher could implement into itself class methods, or to call   other functions which correspond theirself in this case to class methods. Even declaration and definition of a dispatcher function changes from an AmigaOS flavour to another one, but using SDI Tools give us two new macros, which are declared into  SDI_hook.h: DISPATCHERPROTO() and DISPATCHER().
+DISPATCHERPROTO() is the macro used to declared dispatcher prototype, it accepts an olny one argument, which is simply the name of our dispatcher:
 
-DISPATCHERPROTO(MioDispatcher);
+DISPATCHERPROTO(MyDispatcher);
 
 Con la macro DISPATCHER() invece definiamo la funzione vera e propria:
 
-DISPATCHER(MioDispatcher)
+With DISPATCHER() macro we difined instead the real function:
+
+DISPATCHER(MyDispatcher)
 {
   switch (msg->MethodID)
   {
-    case OM_NEW : return mioNew(cl,obj,(APTR)msg);
+    case OM_NEW : return myNew(cl,obj,(APTR)msg);
   }
 
   return DoSuperMethodA(cl,obj,msg);
@@ -941,6 +952,10 @@ prevede comunque l'inserimento di questi tre argomenti: cl è la classe
 cui appartiene il dispatcher, obj è l'oggetto che ha ricevuto il 
 messaggio, msg è il messaggio, nel nostro caso opSet (vedi paragrafo 
 4.3). 
+
+In this example dispatcher check only OM_NEW method of its class, using with this purpose a function called myNew(), we will describe it into next paragraphs.
+After to have check and eventually managed the OM_NEW, our dispatcher sends received message to parent class, using with this reason DoSuperMethodA() Intuition function. Parameters cl, obj, and msg were received from dispatcher itself, in fact a dispatcher prototype for each AmigaOS flavour provides in any case to insert these three arguments: cl is the class which belongs our dispatcher, obj is the object which has received that message, in our case an opSet (see 4.3 paragraph).
+
 
 
 4.6.1 Implementazione di una classe MUI privata
