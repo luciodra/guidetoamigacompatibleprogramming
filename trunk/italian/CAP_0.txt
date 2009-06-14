@@ -51,6 +51,7 @@ ogni giorno l'essere i betatester dei miei programmi e quelli che mi hanno consi
 riguardo numerosi aspetti. Vorrei ringraziare, in ordine sparso:
 
 Alfonso "alfie" Ranieri
+Joerg "-=ONIX=-" van de Loo
 Ikka "itix" Lehtoranta
 Michal "kiero" Wozniak
 Michal "mschulz" Schulz 
