@@ -962,14 +962,17 @@ After to have check and eventually managed the OM_NEW, our dispatcher sends rece
 
 La potenza della programmazione ad oggetti è il poter creare delle
 classi proprie da riutilizzare in casi differenti. Se ad esempio 
-volessimo creare una sottoclasse di MUIM_Group, contenente i due oggetti 
+volessimo creare una sottoclasse di MUIC_Group, contenente i due oggetti 
 bottone e stringa del paragrafo 4.5 dovremmo innanzitutto dichiarare 
 l'area dati della nostra nuova classe, la quale è una semplice 
 struttura: 
 
-struct miaAreaDati
+The Object Oriented Programming' strength is creation of own classes to be used in different situations. For example if you would want create a MUIC_Group subclass, containing the two objects button and string of pharagraph 4.5, you have to declare first of all a datas area of now own class, this is a simple C struct:
+
+
+struct myDataArea
 {    
-   Object *bottone, *stringa;
+   Object *button, *string;
    STRPTR labelButton, labelStr;
 };
 
@@ -977,8 +980,12 @@ A questo punto secondo le regole BOOPSI le variabili dichiarate in
 questo modo all'interno dell'area dati saranno riconosciute, in seguito, 
 come attributi privati della classe. 
 
-Sebbene una classe mui preveda la possibile implementazione dei seguenti 
-metodi: 
+Following BOOPSI rules, variables into datas area declared in this way will be known as private attributes of own class.
+
+Per quanto riguarda i metodi, una classe MUI prevede la possibile 
+implementazione dei seguenti metodi: 
+
+Speaking of methods implementation, a MUI class provides implementation of following methods:
 
 
 - OM_NEW;
@@ -991,9 +998,11 @@ metodi:
 - OM_DISPOSE;
 
 Ciascun metodo dovrà essere implementato solo nel caso ci fosse la reale 
-necessità. Per la documentazione di ciascun metodo rimandiamo alla 
-documentazione MUI presente all'interno dell'archivio muidevXX.lha, al 
-momento ci occuperemo solo di implementare il metodo OM_NEW. 
+necessità. 
+Al momento ci occuperemo solo di implementare il metodo OM_NEW. 
+
+Each method will have to implemented only if you have real necessity to manage it. 
+For the moment we will explain only how we can implement OM_NEW method.
 
 
 4.6.2 Implementazione del metodo OM_NEW e dei tag esterni

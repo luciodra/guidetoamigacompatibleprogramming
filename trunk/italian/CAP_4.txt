@@ -1068,7 +1068,7 @@ messaggio, msg è il messaggio, nel nostro caso opSet (vedi paragrafo
 
 La potenza della programmazione ad oggetti è il poter creare delle
 classi proprie da riutilizzare in casi differenti. Se ad esempio 
-volessimo creare una sottoclasse di MUIM_Group, contenente i due oggetti 
+volessimo creare una sottoclasse di MUIC_Group, contenente i due oggetti 
 bottone e stringa del paragrafo 4.5 dovremmo innanzitutto dichiarare 
 l'area dati della nostra nuova classe, la quale è una semplice 
 struttura: 
@@ -1083,8 +1083,8 @@ A questo punto secondo le regole BOOPSI le variabili dichiarate in
 questo modo all'interno dell'area dati saranno riconosciute, in seguito, 
 come attributi privati della classe. 
 
-Sebbene una classe mui preveda la possibile implementazione dei seguenti 
-metodi: 
+Per quanto riguarda i metodi, una classe MUI prevede la possibile 
+implementazione dei seguenti metodi: 
 
 
 - OM_NEW;
@@ -1096,10 +1096,9 @@ metodi:
 --- MUIM_Cleanup;
 - OM_DISPOSE;
 
-Ciascun metodo dovrà essere implementato solo nel caso ci fosse la reale 
-necessità. Per la documentazione di ciascun metodo rimandiamo alla 
-documentazione MUI presente all'interno dell'archivio muidevXX.lha, al 
-momento ci occuperemo solo di implementare il metodo OM_NEW. 
+Ciascun metodo dovrà però essere implementato solo nel caso ci fosse la reale 
+necessità.
+Al momento ci occuperemo solo di implementare il metodo OM_NEW. 
 
 
 4.6.2 Implementazione del metodo OM_NEW e dei tag esterni
