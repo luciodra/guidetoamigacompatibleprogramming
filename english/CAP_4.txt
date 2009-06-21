@@ -1011,15 +1011,16 @@ Considerando l'esempio del dispatcher del paragrafo 4.5.2, la
 possibile definizione di una funzione mioNew() che corrisponderà al metodo OM_NEW 
 è la seguente: 
 
+Taking dispatcher example of 4.5.2 paragraph, possible definition of a myNew() function which will used as OM_NEW could be:
 
-IPTR mioNew(struct IClass *cl,Object *obj,struct opSet *msg)
+IPTR myNew(struct IClass *cl,Object *obj,struct opSet *msg)
 {
-  struct miaAreaDati *data;
+  struct myDataArea *data;
   .
   .
   .
   .
-  /*chiamata al metodo OM_NEW della superclasse*/
+  /*call to method OM_NEW of superclass*/
   .
   .
   .
@@ -1030,7 +1031,7 @@ IPTR mioNew(struct IClass *cl,Object *obj,struct opSet *msg)
   .
   .
   .
-  /*ritorno il puntatore all'oggetto istanziato*/
+  /*return pointer to istantiated object*/
     
 }
 
@@ -1039,6 +1040,8 @@ che concerne i suoi parametri: cl è la classe a cui appartiene il
 dispatcher, obj è l'oggetto che ha ricevuto il messaggio, msg è il 
 messaggio ricevuto. INST_DATA() è una macro di sistema utilizzata per 
 ricavare l'indirizzo iniziale dell'area dati dell'oggetto chiamante.
+
+A function which will be OM_NEW will have always a similar form regards its parameters: cl is the class to which is referred the dispatcher, obj is the object which has received message, and msg is the received message. INST_DATA() is a system macro used to have starting address of data area of object which was created with OM_NEW.
 
 L'area dati della nostra classe non è nient'altro che la composizione
 dell'area dati da noi dichiarata, contenente le altre aree dati delle
@@ -1059,12 +1062,17 @@ ciascuna superclasse, sino a giungere al nostro metodo OM_NEW, il quale non farà
 altro che mimare i su indicati passi, impiegando a tale proposito la macro
 INST_DATA().
 
+Data area of our class is a memory area which contains our declared data area, containing others data areas of eventually superclasses (polymorphism). Allocation of other data areas is done calling OM_NEW method of superclass, which will invoke OM_NEW method of its superclass, and so on until to go up to rootclass. In this situation OM_NEW method of rootclass will alloc a memory area big enough to contain an area data of its istance, passing it to its subclass using a pointer: in this way it was created a rootclass istance. When subclass receives rootclass object, subclass will use INST_DATA() macro to tell to system to alloc other memory to join to data area of its superclass (identified between pointer to rootclass object), and this new memory will be used by the subclass to insert into it with its data area.
+At this point, after to have done eventually other actions, OM_NEW method of current subclass will pass the new "composed" data area to its subclass, always using a pointer to istantiated object. This process is done by each superclass, until it will arrive to our OM_NEW, which will only mimic just described steps, using for this reason INST_DATA() macro.
+
 Prima della chiamata al metodo OM_NEW della superclasse, potremmo voler leggere
 eventuali parametri passati dall'esterno (un messaggio) al nostro metodo.
 Nel nostro esempio, nel caso in cui si volessero inizializzare da OM_NEW i
 valori di labelButton e labelStr, bisognerà innanzitutto effettuare un'associazione
 logica tra tali variabili e delle etichette (ID) che il metodo OM_NEW riconoscerà. Per
 dichiarare degli ID si procede come segue:
+
+Before the call of superclass OM_NEW method, we could read eventual parameters (a message) passed to our method. Into our example, in case it would initialize from OM_NEW labelButton and labelStr values, at the fist it has to do a logical association between that variables and some labels (ID) which OM_NEW will know. To declare IDs you can do in this way:
 
 #define MUI_CLASS_TUTORIAL (TAG_USER | 0x80420000)
 #define MUIA_MUIClassTutorial_TextStr MUI_CLASS_TUTORIAL + 1
@@ -1077,7 +1085,10 @@ per distinguere i tag utente da quelli di sistema) combinato con il
 valore esadecimale 0x80420000 attraverso un OR bitwise. La scelta del 
 valore esadecimale non è casuale, difatti la documentazione mui 
 raccomanda di usare valori esadecimali compresi tra 0x80420000 e 
-0x80429999 per le variabili pubbliche delle proprie classi. 
+0x80429999 per gli attributi pubblici delle proprie classi. 
+
+In this way we have declared three symbols, latest two are depending from first one.
+MUI_CLASS_TUTORIAL is first symbol from which we make others two symbols, its value is given by TAG_USER (a system value used to distinguish user tags from system ones) combined with exadecimal value 0x80420000 using a bitwise OR. The choose of exadecimal value is not casual, in fact MUI documentation recommends to use exadecimal values from 0x80420000 to 0x80429999 for public attributes of our classes.
 
 In realtà nel caso in cui dovessimo creare solo classi private, e cioè
 non accessibili da altri programmi fuorchè il nostro, potremmo definire 
