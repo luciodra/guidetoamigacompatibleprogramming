@@ -1171,9 +1171,9 @@ MUI_CLASS_TUTORIAL è il simbolo di partenza da cui generiamo gli altri
 due, il suo valore è dato da TAG_USER (un valore di sistema impiegato 
 per distinguere i tag utente da quelli di sistema) combinato con il 
 valore esadecimale 0x80420000 attraverso un OR bitwise. La scelta del 
-valore esadecimale non è casuale, difatti la documentazione mui 
+valore esadecimale non è casuale, difatti la documentazione MUI
 raccomanda di usare valori esadecimali compresi tra 0x80420000 e 
-0x80429999 per le variabili pubbliche delle proprie classi. 
+0x80429999 per gli attributi pubblici delle proprie classi. 
 
 In realtà nel caso in cui dovessimo creare solo classi private, e cioè
 non accessibili da altri programmi fuorchè il nostro, potremmo definire 
