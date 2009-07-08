@@ -1228,7 +1228,7 @@ corrente, nel caso in cui corrispondesse ad uno dei simboli
 precedentemente stabiliti verrà svolta un'azione: se tag->Ti_Tag è 
 uguale a MUIA_MUIClassTutorial_TextStr allora verrà inizializzato 
 labelStr con il valore residente in tag->ti_Data, mentre labelButton 
-verrà inizializzato a tag->Data se tag->ti_Tag sarà uguale a 
+verrà inizializzato a tag->ti_Data se tag->ti_Tag sarà uguale a 
 MUIA_MUIClassTutorial_LabelBut. 
 
 E' bene notare come la dichiarazione di NextTagItem() su AROS sia leggermente
@@ -1270,7 +1270,7 @@ labelButton= (STRPTR) GetTagData(MUIA_MUIClassTutorial_LabelBut, (IPTR)NULL,tags
 Abbiamo già accennato di possibili attributi non gestiti dal metodo 
 OM_NEW della classe corrente. Un attributo in questa 
 situazione dovrebbe essere gestito nel nostro esempio dall'analogo 
-OM_SET della classe madre, il quale verrà chiamato anche per risolvere
+OM_NEW della classe madre, il quale verrà chiamato anche per risolvere
 questa situazione.
 
 A questo punto bisognerà istanziare, come svolto in precedenza (paragrafo 4.4.2),
