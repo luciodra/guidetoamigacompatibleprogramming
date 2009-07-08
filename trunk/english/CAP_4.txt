@@ -1094,6 +1094,8 @@ In realtà nel caso in cui dovessimo creare solo classi private, e cioè
 non accessibili da altri programmi fuorchè il nostro, potremmo definire 
 i simboli per i nostri attributi e metodi in tal modo:
 
+But when we should create only private custom classes, in other words classes not visible from other programs except ours, we could define symbols for ours attributes and methods in this way:
+
 #define MUIA_MUIClassTutorial_TextStr  TAG_USER + 20
 #define MUIA_MUIClassTutorial_LabelBut TAG_USER + 21
 
@@ -1101,14 +1103,19 @@ Ed a seguire... tenendo a mente di utilizzare dei valori per i nostri
 simboli abbastanza distanti rispetto al valore TAG_USER, altrimenti
 potremmo riscontrare delle anomalie in alcune situazioni.
 
+Etc... bear in mind to use values for ours symbols enough distants from TAG_USER value, in this way we couldn't avoid problems in some situations.
+
 A questo punto dovremo analizzare il messaggio ricevuto, controllando se
 l'utente ha inviato eventuali inizializzazioni per labelButton e labelString.
 Si procede quindi in questi termini:
 
-Object *stringa, *bottone;    /*allochiamo gli oggetti che popoleranno
-STRPTR labelStr, labelButton;   in seguito la nostra area dati*/
+At this point we should analize received message, checking if user has sent some initializations for labelButton and labelString.
+So we go on in this way:
 
-{/*blocco per la lettura della tag list*/
+Object *string, *button;        /*we alloc objects which will populate*/
+STRPTR labelStr, labelButton;   /*after our data area*/
+
+{/*block for reading tag list*/
   struct TagItem *tags, *tag;
 
   tags=((struct opSet *)msg)->ops_AttrList;
@@ -1143,13 +1150,18 @@ corrente, nel caso in cui corrispondesse ad uno dei simboli
 precedentemente stabiliti verrà svolta un'azione: se tag->Ti_Tag è 
 uguale a MUIA_MUIClassTutorial_TextStr allora verrà inizializzato 
 labelStr con il valore residente in tag->ti_Data, mentre labelButton 
-verrà inizializzato a tag->Data se tag->ti_Tag sarà uguale a 
+verrà inizializzato a tag->ti_Data se tag->ti_Tag sarà uguale a 
 MUIA_MUIClassTutorial_LabelBut. 
+
+As we know opSet message (parhagraph 4.3) has a variable called ops_AttrList which points to passed tag list, for this reason we have declared two pointers tags and tag, used with NextTagItem() utility.library function. This function wants a tag list address, and it's used for crossing that passed tag list. Each new call to NextTagItem() rapresents scrolling of a position on into tag list, and this scrolling is executed into passed tag list. The return value  of NextTagItem() is the current tag on which the passed tag list is (current position into tag list). With that switch we check tag->ti_Tag value of current tag, and if it is equal to one of past declared symbols then will be executed an action: if tag->Ti_Tag is MUIA_MUIClassTutorial_TextStr then labelStr will be initialized with value resident into tag->ti_Data, while labelButton will be initialized to tag->ti_Data if tag->ti_Tag will be equal to MUIA_MUIClassTutorial_LabelBut.
+
 
 E' bene notare come la dichiarazione di NextTagItem() su AROS sia leggermente
 differente dalle altre incarnazioni Amiga, per tale motivo il su indicato
 codice comporterebbe degli avvisi (warnings) da parte del compilatore.
 Per risolvere questa situazione è possibile usare la macro TAGLIST:
+
+It's important to be noticed as NextTagItem() AROS declaration is little different from other Amiga flavours, for this reason just written example code if compiled would give some compiler warnings. To solve this situation is possible to use TAGLIST macro so declared:
 
 #ifdef __AROS__
   #define TAGITEM const struct TagItem **
@@ -1158,6 +1170,8 @@ Per risolvere questa situazione è possibile usare la macro TAGLIST:
 #endif  
 
 ed effettuare il seguente casting:
+
+and to execute this following casting:
 
 ...
  while (tag=NextTagItem((TAGITEM)&tags))
@@ -1168,12 +1182,17 @@ caso in cui venga implementato il metodo OM_SET e nel caso in cui ci
 fossero molti attributi da gestire. E' possibile sintetizzare tale scrittura
 impiegando a questo proposito la funzione GetTagData() della utility.library:
 
+It's a common behaviour to use a similar sintax with NextTagItem(), switch and case in case you are implementing OM_SET method and in case we should handle many attributes. It's possible to sum past example code using GetTagData() utility.library function:
+
 IPTR GetTagData(Tag,IPTR,struct TagItem *);
 
 La funzione vuole l'etichetta del tag da individuare come primo argomento, 
 un valore di ritorno di default nel caso in cui non venga trovata l'etichetta 
 come secondo argomento, e la già vista ops_AttrList come ultimo argomento. 
 Impiegando GetTagData() al nostro esempio avremo:
+
+This function wants tag label to search as first argument, a default return value in case tag label is not found as second argument, and just seen ops_AttrList as latest argument.
+Using GetTagData() into our example we will have:
 
 struct TagItem *tags;
 tags=((struct opSet *)msg)->ops_AttrList;
@@ -1185,19 +1204,25 @@ labelButton= (STRPTR) GetTagData(MUIA_MUIClassTutorial_LabelBut, (IPTR)NULL,tags
 Abbiamo già accennato di possibili attributi non gestiti dal metodo 
 OM_NEW della classe corrente. Un attributo in questa 
 situazione dovrebbe essere gestito nel nostro esempio dall'analogo 
-OM_SET della classe madre, il quale verrà chiamato anche per risolvere
+OM_NEW della classe madre, il quale verrà chiamato anche per risolvere
 questa situazione.
+
+We have just writted about possible not handled attributes from OM_NEW method of current class. In this situation an attribute should be handle into our example from OM_NEW of mother class (superclass), this one will be called even to solve this situation.
 
 A questo punto bisognerà istanziare, come svolto in precedenza (paragrafo 4.4.2),
 gli oggetti stringa e bottone, inizializzandoli con i valori di
 labelStr e labelButton.
 
+So a this stage we will istantiate, as we have done before (parhagraph 4.4.2) string and button objects, initialize them with labelStr and labelButton values.
+
 Per richiamare adesso il metodo OM_NEW della superclasse
 si può utilizzare DoSuperMethodA(), o la sua versione varargs DoSuperMethod(),
 in questo modo:
 
-struct TagItem taglist[] = {{MUIA_Group_Child, (IPTR) stringa},
-                            {MUIA_Group_Child,(IPTR) bottone},
+Now to call superclass OM_NEW method we can use DoSuperMethodA(), or its varargs version DoSuperMethod() in this way:
+
+struct TagItem taglist[] = {{MUIA_Group_Child, (IPTR) string},
+                            {MUIA_Group_Child,(IPTR) button},
                             {TAG_MORE, (IPTR) msg->ops_AttrList}};
             
 obj =(Object *) DoSuperMethod(cl, 
@@ -1222,6 +1247,9 @@ Approfondiremo l'analisi di DoSuperNew() in un secondo momento, per ora
 riporteremo la semplice chiamata a questa funzione per sostituire le 
 righe su indicate: 
 
+Using DoSuperMethod() we have called OM_NEW method of mother class, in our example it's MUIC_Group, passing to it a tag list which will permitt to called method to create a group with our string and with our  button like children. TAG_MORE tells to system there is a new tag list, and its pointer, as we know, is into msg->ops_AttrList. If DoSuperMethod() returns NULL it means passed arguments aren't known from mother class. However this kind of code is a little bit impenetrable, for this reason is common practice to use an utility function called DoSuperNew().
+We will describe DoSuperNew() in another parhagraph, for now we will call this function instead of just written code which used DoSuperMethod():
+
 obj = DoSuperNew(cl, 
                  obj,
                  MUIA_Group_Child, stringa,
@@ -1242,6 +1270,11 @@ Adesso non ci rimane altro da fare che chiamare la macro INST_DATA(),
 con la quale ricaveremo la nostra area dati, quest'ultima verrà così
 popolata:
 
+
+With DoSuperNew() we have sent to class mother OM_NEW method, in our case MUIC_Group, string and button objects, so they will become children of next object which we will create from our new class. So string and button object will be automatic inserted into a MUIC_Group object, and toghether with it they will be an istance of our private MUI class.
+Now we should only call  INST_DATA() macro, with which we will have our data area, and this one will be populated in this way:
+
+
 data = INST_DATA(cl,obj);
 
 data->labelStr    = labelStr;
@@ -1253,6 +1286,8 @@ return obj;
 
 A questo punto in sostanza abbiamo esposto tutto ciò che ci serve per
 implementare il metodo OM_NEW.
+
+So in this way we have shown all we have needed to implement a simple OM_NEW method. 
 
 
 4.6.3 Utilizzo di una classe privata
