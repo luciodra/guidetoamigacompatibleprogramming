@@ -1,9 +1,8 @@
-APPENDICE B: SubVersion su Amiga
+APPENDICE B: Subversion su Amiga
 
 "And given how Amiga software looks today, it appears to me that not
 everyone who should have read this book really did so."
-Olaf Barthel riguardo il libro 
-"The User Interface Style Guide", 26-11-1996 comp.sys.amiga.programmer
+Olaf Barthel riguardo il libro  "The User Interface Style Guide", 26-11-1996 comp.sys.amiga.programmer
 
 "It's really high time the RKMs are taken care of :( "
 Olaf Barthel comp.sys.amiga.programmer 12-09-1997
@@ -13,7 +12,7 @@ B.1 Introduzione
 
 Subversion è un insieme di programmi che permettono a diversi
 sviluppatori di lavorare contemporaneamente ad uno o più file.
-L'utilizzo di subversion è consigliato anche in progetti in cui
+L'utilizzo di Subversion è consigliato anche in progetti in cui
 lavorerà una singola persona, poiché l'utilizzo di questi programmi
 comporta una serie di vantaggi non indifferenti:
 
@@ -26,14 +25,14 @@ comporta una serie di vantaggi non indifferenti:
   in qualsiasi momento, invece che impazzire a ricordarsi quali modifiche
   si sono fatte da un arco di tempo in poi;
 
-Possiamo dunque definire subversion come un insieme di programmi per la
+Possiamo dunque definire Subversion come un insieme di programmi per la
 gestione pulita e trasparente dei propri lavori.
 
 L'interazione tra diversi utenti con uno stesso progetto avviene
 attraverso un server principale, il quale accoglie i file del progetto
 con cui si sta collaborando. Un utente scarica sul proprio computer una
 copia dei file del progetto cui è interessato, esegue eventualmente le
-proprie modifiche e le invia al server principale, SubVersion si
+proprie modifiche e le invia al server principale, Subversion si
 occuperà quindi di integrarle correttamente con la versione del
 progetto residente sul server.
 
@@ -50,7 +49,7 @@ il repository si trova su un server remoto.
 
 B.3 Cos'è una revisione
 
-Uno dei concetti su cui si fonda il funzionamento di SubVersion è quello
+Uno dei concetti su cui si fonda il funzionamento di Subversion è quello
 della revisione (revision). Supponiamo di avere sul nostro Amiga un
 file di testo, pippo_r0.txt, e di andarlo a modificare, salvando poi il
 file modificato con un altro nome, per esempio pippo_r1.txt. Avremo in
@@ -61,11 +60,11 @@ possiamo definirlo la revisione 0 del nostro file, mentre pippo_r1.txt
 Una revisione è dunque una copia, o meglio, una "fotografia" (snapshot)
 di un file in un determinato momento della sua esistenza. Ogni
 qualvolta inviamo con successo dei cambiamenti sui file di un progetto
-gestito su un server da SubVersion, il repository si occuperà di
+gestito su un server da Subversion, il repository si occuperà di
 creare una revisione dei file prima delle nostre modifiche, in modo
 tale da permetterci di recuperare eventualmente dei lavori andati
 perduti accidentalmente. Questo è uno dei punti di forza di progetti
-che impiegano SubVersion: la possibilità di recuperare in qualsiasi
+che impiegano Subversion: la possibilità di recuperare in qualsiasi
 momento una revisione di uno o più file di un progetto senza tenere sul
 nostro computer copie differenti da gestire manualmente.
 Come accennato, chi svolge le operazioni di mantenimento e controllo 
@@ -80,9 +79,9 @@ directory.
 
 B.4 Collaborare in progetti che utilizzano Subversion
 
-Per collaborare a un progetto che utilizza SubVersion dovrete
+Per collaborare a un progetto che utilizza Subversion dovrete
 innanzitutto avere un account sul server che ospita il progetto e
-installare il pacchetto SubVersion sul vostro Amiga. Di solito
+installare il pacchetto Subversion sul vostro Amiga. Di solito
 l'insieme di questi programmi si trova su aminet, os4depot e altri siti
 di questo genere.
 
@@ -96,7 +95,7 @@ che servono per collaborare in un progetto già avviato.
 Particolare rilevanza ha la versione di svn e il server con cui si
 interagirà. Più precisamente alcuni nuovi server, come code.google.com,
 richiedono un'identificazione attraverso SSL, il quale è supportato
-dalla versione Amiga 1.7 di SubVersion (porting della versione 1.1.4),
+dalla versione Amiga 1.7 di Subversion (porting della versione 1.1.4),
 dunque se avete una versione antecedente alla 1.7 non potrete accedere
 ai progetti che risiedono su questi server dal vostro Amiga.
 Come accennato, il comando svn permette un'interazione abbastanza
@@ -126,7 +125,7 @@ più frequentemente sono:
 
 B.5.1 Checkout, scaricare i sorgenti di un progetto
 
-Come abbiamo accennato, i progetti gestiti con SubVersion risiedono in
+Come abbiamo accennato, i progetti gestiti con Subversion risiedono in
 un server che supporta questa suite di programmi. Tra i server più noti
 abbiamo quelli forniti dai portali sourceforge.net e code.google.com,
 il primo accoglie e accetta per lo più progetti software, mentre il secondo 
@@ -175,7 +174,7 @@ NoWinED ha al momento due directory dentro trunk.
 Il comando svn crea inoltre in ciascuna directory che "monitora"
 un'ulteriore directory privata, chiamata ".svn", della quale al momento
 non ci occuperemo. Basti tenere a mente che le directory dal nome ".svn" 
-servono a SubVersion per svolgere i propri compiti e non vanno
+servono a Subversion per svolgere i propri compiti e non vanno
 modificate ne cancellate.
 
 
@@ -429,7 +428,7 @@ quali le Creative Commons non sono ammesse da SourgeForge. Tutto questo
 non esiste su Code.Google;
 
 -Code.Google permette l'interazione con il suo server attraverso SSL,
-dunque versioni precedenti alla 1.7 di SubVersion su Amiga non
+dunque versioni precedenti alla 1.7 di Subversion su Amiga non
 funzioneranno con Code.Google, mentre su SourceForge non si hanno
 (ancora) questi problemi;
 
@@ -474,7 +473,7 @@ creare altre directory:
 
 Non è obiettivo di questa guida esporre in modo approfondito l'utilizzo
 di queste tre directory, dunque per ulteriori informazioni rimandiamo
-alla guida completa per SubVersion
+alla guida completa per Subversion
 (http://svnbook.red-bean.com/nightly/it/svn-book.html), basti sapere
 che la directory trunk conterrà tutti i file del vostro progetto,
 mentre le directory branches e tags rimarranno (per adesso) vuote.
