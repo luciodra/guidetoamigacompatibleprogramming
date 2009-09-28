@@ -132,7 +132,7 @@ il primo accoglie e accetta per lo più progetti software, mentre il secondo
 ospita anche progetti che non riguardano per forza i sorgenti di un software,
 ma anche lavori come documentazioni e guide.
 
-Supponiamo ad esempio di voler collaborare a un progetto che risiede sul
+Supponiamo di voler collaborare a un progetto che risiede sul
 portale sourceforge, ad esempio NoWinED. La pagina web cui fa capo
 questo progetto è:
 
