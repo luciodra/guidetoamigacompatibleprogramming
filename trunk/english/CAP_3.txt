@@ -105,28 +105,26 @@ create a requester, using the EasyStruct structure, defined in <intuition/intuit
 
 struct EasyStruct {
     ULONG es_StructSize;    /* structure dimentsion                */
-    ULONG es_Flags;         /* usually set to 0                */
+    ULONG es_Flags;         /* usually set to 0                    */
     UBYTE *es_Title;        /* requester's title                   */
-    UBYTE *es_TextFormat;   /* string inside the requester             */
-    UBYTE *es_GadgetFormat; /* string inside the close button          */
+    UBYTE *es_TextFormat;   /* string inside the requester         */
+    UBYTE *es_GadgetFormat; /* string inside the close button      */
 };
 
 and the Intuition's EasyRequestArgs() function, declared in this way:
 
 
 LONG EasyRequestArgs(struct Window *window,               /*window which the */
-                              /*requester belongs*/
-                              /*to;              */
+                                                          /*requester belongs*/
+                                                          /*to;              */
                               
                      CONST struct EasyStruct *easyStruct, /*requester to     */
-                                  /*open;        */
-                              
+                                                          /*open;        */
                      LONG *idcmpPtr,                      /*a particular     */
-                                  /*event that closes*/
-                              /*the requester     */
-                              
+                                                          /*event that closes*/
+                                                          /*the requester     */
                      CONST APTR args );                   /*optional         */
-                              /*arguments...;    */
+                                                          /*arguments...;    */
 
 we have to open intuition.library first. To perform this task Exec's function
 calls OpenLibrary(). When we close the program we need to close all the
