@@ -20,23 +20,19 @@ alfie, FreeNode #AmigaITA IRC channel , 2007
 
 I  Who is this for
 
-
 This guide offers a lot of concepts from subjects like software engineering,
-structured and object oriented programming, referring to the available APIs of
-the Amiga platform. We recommend the reader to follow the suggested links during
-the guide, in order to obtain a larger point of view about the methodologies we
-will refer to. Every subject will be handled in a synthetic form sometimes,
+structured and object oriented programming to referring to the available APIs of
+the Amiga platform. We recommend the reader follow the suggested links during
+the guide, in order to obtain a better point of view about the methodologies we
+will reference. Every subject will be handled in a simulated form sometimes,
 leaving the task of mastering the subject to the reader, using reference texts
-which will be always suggested here.
+which will always be suggested here.
 
-Knowledges explained in this guide are easily accessible to who knows what a
+Knowledge explained in this guide is easily accessible to those who know what a
 compiler is and who have a basic knowledge of the C programming language.
-If you don't have these knowledges, please read the following C courses first:
+If you don't have this knowledge, please read the following C courses first:
 
-http://programmazione.html.it/guide/leggi/32/guida-c/   #EVENTUALMENTE SOSTITUIRE CON UNA INGLESE
-
-The above course have a section explaining the useful software to program, to
-which you must add those suggested in the chapter 2 of this guide.
+http://www.cprogramming.com/tutorial.html   
 
 
 II  Acknowledgement
