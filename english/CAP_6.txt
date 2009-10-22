@@ -1,337 +1,332 @@
-CAPITOLO 6: Metodologie per la programmazione 
+CHAPTER 6: Methodology for planning
 
-" voodoo programming : 
-The use by guess or cookbook of an obscure or hairy system, feature, 
-or algorithm that one does not truly understand. The implication is 
-that the technique may not work, and if it doesn't, one will never 
-know why. Almost synonymous with black magic, except that black magic 
-typically isn't documented and nobody understands it."
+"Voodoo programming:
+The use by guess or cookbook of an obscure or hairy system, feature,
+or algorithm that one does not truly understand. The implication is
+that the technique may not work, and if it does, one will never
+know why. Almost synonymous with black magic, except that black magic
+typically is not documented and nobody understands it. "
 The Jargon File
 
 "black magic:
-A technique that works, though nobody really understands why."
+A technique that works, though nobody really understands why. "
 The Jargon File
 
 
-6.1 Definizione un problema da risolvere 
-
-Procediamo adesso ad una spiegazione (piuttosto ridotta) della 
-macroanalisi. Verranno presentati anche degli esempi pratici per 
-ciascuna fase. 
-
-Una delle parti fondamentali durante la progettazione di un software è 
-capire cosa vogliamo risolvere e conseguentemente sviluppare. Per 
-esempio vorremmo : 
-
------------------------------------------------------------------------ 
-" scrivere un programma Amiga che emuli una calcolatrice. Il programma 
-dovrà svolgere un'addizione, una sottrazione, una moltiplicazione, una 
-divisione, una radice quadrata". 
------------------------------------------------------------------------ 
-
-Bisogna innanzitutto comprendere "ciò che si vuole" dal proprio 
-programma, il suo scopo. Nel nostro caso esistono molteplici generi di 
-calcolatrice: calcolatrici semplici, calcolatrici scientifiche, 
-calcolatrici evolute, e cosi via. Nell'esempio esposto vogliamo 
-sviluppare una calcolatrice con funzioni base. Ma quali sono le funzioni 
-base in una calcolatrice? Per ottenere delle risposte a quest'ultima 
-domanda bisogna documentarsi. La fase di documentazione è fondamentale 
-per definire tutto ciò che il software dovrà offrire e dunque si deve 
-impiegare del tempo per trovare informazioni riguardanti il problema da 
-risolvere, in gergo bisogna comprendere il "dominio", e cioè l'ambiente 
-che circonda il problema. Nel nostro caso, all'apparenza semplice, ci 
-siamo documentati riguardo allo svolgimento di un'addizione, una 
-sottrazione, una moltiplicazione ed una radice quadrata di uno o più 
-numeri all'interno dell'elaboratore. A questo punto abbiamo individuato 
-il necessario, in questa fase, sull'argomento "calcolatrice semplice". 
-Dopo aver acquisito un certo bagaglio culturale sul problema da 
-risolvere, si procede a definire i cosiddetti "requisiti", cioè le 
-funzionalità che il software dovrà offrire. 
-
-Alcuni requisiti sono "espressi": 
-
------------------------------------------------------------------------ 
-"Il programma dovrà svolgere un'addizione, una sottrazione, una 
-moltiplicazione, una divisione, una radice quadrata". 
------------------------------------------------------------------------ 
-
-Alcuni sono "espliciti": 
-
------------------------------------------------------------------------ 
-"il programma dovrà avere la possibilità di digitare numeri negativi, la 
-possibilità di inserire numeri con la virgola, dovrebbe avere la 
-possibilità di svuotare il display [???] dalle precedenti operazioni, 
-dovrebbe riuscire a gestire le divisioni per zero e come ultima 
-cosa, il programma necessita di un'interfaccia grafica". 
------------------------------------------------------------------------ 
-
-Altri requisiti sono impliciti: 
-
------------------------------------------------------------------------ 
-"il programma girerà sulle diverse incarnazioni Amiga. L'interfaccia 
-grafica dovrebbe avere l'aspetto di una calcolatrice reale." "Il 
-programma permetterà la visualizzazione e la manipolazione di TOT 
-cifre." 
------------------------------------------------------------------------ 
-
-Abbiamo così definito la cosiddetta "presentazione del problema", o in 
-altri casi "intervista al committente". 
-
-La definizione dei requisiti comporterà un ulteriore lavoro di 
-documentazione da parte dello sviluppatore, che dovrà quindi ricercare 
-informazioni riguardo i requisiti esplicitati ed impliciti. Tutte le 
-informazioni ricavate da queste ricerche saranno poi impiegate nelle 
-successive fasi della macroanalisi. 
-
-
-6.2 Analisi e specifica dei requisiti 
-
-L'analisi dei requisiti è la fase più importante durante lo sviluppo di 
-un software, in questa fase vengono formalizzate le funzionalità 
-individuate durante la definizione del problema. Più precisamente si 
-formalizzano due famiglie di requisiti: 
-
-- Requisiti funzionali: rappresentano ciò che deve svolgere il software; 
-- Requisiti non funzionali: rappresentano i vincoli, le costrizioni cui 
-il software deve sottostare; 
-
-Tra i requisiti non funzionali possiamo distinguere: 
-
-- Requisiti di processo: comprendono i tempi di consegna del software, 
-gli standard da rispettare, i sistemi operativi sui quali il software 
-dovrà essere eseguito, i linguaggi da usare per la codifica; 
-
-- Requisiti di prodotto: comprendono i canoni di qualità che il software 
-dovrebbe rispettare. Tra tali canoni abbiamo affidabilità, portabilità, 
-usabilità e molti altri; 
-
-- Requisiti esterni: sono i vincoli di ordine legale ed economico; 
-
-Ad ogni modo è bene assegnare a ciascun requisito una propria priorità. 
-Le priorità dei requisiti viene data in base al loro grado d'importanza 
-rispetto alla completezza del progetto stesso. Nello specifico i 
-requisiti vengono classificati secondo tre priorità: 
-
-1) MUST: sono requisiti la cui mancata implementazione comprometterebbe 
-   il funzionamento dell'intero software;
-2) SHOULD: sono requisiti che implementati darebbero una maggiore 
-   completezza al software. La loro mancata implementazione non pregiudicherebbe 
-   nessuna funzionalità base del software. Ad ogni modo, i requisiti SHOULD 
-   potrebbero essere implementati in un secondo momento senza tuttavia la perdita 
-   di molto tempo e senza modificare troppo il codice sorgente;
-3) MAY: requisiti la cui implementazione è facoltativa e di cui si può fare a meno 
-   in una prima fase di sviluppo del software. Tuttavia l'aggiunta di queste 
-   funzionalità in un secondo momento potrebbe comportare la modifica di parti 
-   significative del software, dovendo impiegare così molto tempo per la loro 
-   realizzazione;
+6.1 Defining a problem to solve
+
+Now let's proceed to an explanation (rather small) of
+macro-analysis. To be covered are some practical examples for
+each phase.
+
+One of the key parts in the design of a software is to
+understand what we want to solve and consequently develop. For
+such wishes:
+
+-------------------------------------------------- ---------------------
+"Amiga write a program that emulates a calculator. The program
+will display an addition, subtraction, multiplication, a
+division, square root.
+-------------------------------------------------- ---------------------
+
+We must first understand "what we want" from our
+program, its purpose. In our case there are many kinds of
+Calculators: simple calculators, scientific calculators,
+evolutionary calculators, and so on. In the example shown we
+develop a calculator with basic functions. But what are the functions
+based on for a calculator? To obtain answers to the latter, the
+application must be documented. The stage of documentation is essential
+to define everything that the software will have to offer and therefore it must
+take some time to find information about the problem
+solve, in the jargon necessary to understand the "domain", ie the environment
+surrounding the issue. In our case, apparently simple, 
+we documented the performance of an addition,
+subtraction, multiplication and a square root of one or more
+numbers within the calculator. At this point we have identified
+the things necessary, at this stage, about the "simple calculator.
+Having acquired a certain cultural background on the problem to
+solve, we proceed to define the so-called "requirements", ie
+functionality that the software will have to offer.
+
+Some requirements are "cast":
+
+-------------------------------------------------- ---------------------
+"The program will perform an addition, subtraction, a
+multiplication, division, square root.
+-------------------------------------------------- ---------------------
+
+Some are "explicit"
+
+-------------------------------------------------- ---------------------
+"The program should be able to enter negative numbers, the user
+can enter numbers with the comma, should have the
+ability to clear the display from previous operations,
+should be able to handle the division by zero and finally
+the program needs a graphic interface.
+-------------------------------------------------- ---------------------
+
+Other requirements are implicit:
+
+-------------------------------------------------- ---------------------
+"The program will run on the various incarnations Amiga. The interface
+graphics should look like a real calculator. The
+program will allow viewing and manipulation of TOT
+digits.
+-------------------------------------------------- ---------------------
+
+We have thus defined the "Problem".
+
+The definition of requirements will lead to further work,
+documentation from the developer, who will then search for
+information about the requirements explicit and implicit. All
+information obtained from this research will then be used in
+subsequent phases of macro-analysis.
+
+
+6.2 Analysis and specification requirements
+
+Requirements analysis is the most important step during the development of
+software, at this stage are formalized features
+identified during the definition of the problem. More precisely,
+formalize two families of requirements
+
+- Functional requirements: they represent what the software must do;
+- Non-functional requirements: they are constraints, constraints which
+software must undergo;
+
+Among the non-functional requirements we can distinguish:
+
+- Requirements process: they include the timing of delivery of software,
+standards to be met, the operating systems on which the software
+should be executed, the languages to be used for encoding;
+
+- Product requirements: they include fees for the software
+that should be expected. Those fees have reliability, portability,
+usability and many others;
+
+- External requirements are the constraints of legal order and economic development;
+
+Anyway it is good to assign to each requirement its own priorities.
+The priority of the requirement is given according to their degree of importance 
+with respect to the completeness of the project. Specifically, the
+requirements are classified according to three priorities:
+
+1) MUST: are requirements whose failure would jeopardize implementation
+    functioning of the entire software;
+2) Should: have implemented requirements that would give greater
+    completeness of the software. Their failure to implement would not affect
+    any basic functionality of the software. However, the requirements SHOULD
+    could be implemented at a later time without loss of
+    much time and without modifying the source code;
+3) MAY: requirements whose implementation is optional and you can do without
+    a first phase of software development. However, the addition of these
+    functionality at a later time may change parts
+    significantly in the software, having to spend so much time for their
+    implementation;
 
-Adesso applichiamo tutte queste teorie al nostro esempio. La 
-presentazione del problema era: 
+Now we apply these theories to our example. The
+Problem was:
 
------------------------------------------------------------------------ 
-"Scrivere un programma Amiga che emuli una calcolatrice". "Il programma 
-dovrà svolgere un'addizione, una sottrazione, una moltiplicazione, una 
-divisione, una radice quadrata" . "il programma dovrà avere la 
-possibilità di digitare numeri negativi, la possibilità di inserire 
-numeri con la virgola, la possibilità di svuotare il display dalle 
-precedenti operazioni di I/O. Il software dovrebbe riuscire a gestire le 
-divisioni per zero e come ultima cosa, il programma necessiterà di una 
-interfaccia grafica". "Il programma permetterà la visualizzazione e la 
-manipolazione di TOT cifre". "il programma girerà sulle diverse 
-incarnazioni Amiga. L'interfaccia grafica dovrebbe avere l'aspetto di 
-una calcolatrice reale". 
------------------------------------------------------------------------ 
-
-Tali requisiti, combinati con la documentazione che abbiamo ricavato 
-durante le nostre ricerche diventano: 
-
------------------------------------------------------------------------ 
-Requisiti funzionali 
-
-MUST: il programma permetterà l'inserimento di numeri da parte 
-dell'utente. I numeri verranno visualizzati in un'apposita area di 
-visualizzazione (display); 
+-------------------------------------------------- ---------------------
+"On the Amiga write a program that emulates a calculator. "The program
+will perform addition, subtraction, multiplication,
+division, square root "." the program should be
+ability to enter negative numbers, the ability to enter
+numbers with the comma, the ability to clear the display by
+previous operations I / O. The software should be able to manage
+division by zero and as a last thing, the program will require a
+graphical interface. The program will display and
+TOT manipulating figures. The program will run on different
+Amiga incarnations. The graphical interface should look like
+a real calculator.
+-------------------------------------------------- ---------------------
+
+Those requirements, combined with the documentation that we obtained
+during our research today:
+
+-------------------------------------------------- ---------------------
+Functional Requirements
 
-MUST: il programma dovrà svolgere l'operazione aritmetica di addizione. 
-Dati due numeri reali a e b, l'operazione "+", ci darà, se è calcolabile 
-dall' elaboratore, un terzo numero c = a+b; 
+MUST: The program will allow the inclusion of these numbers by
+user. The numbers appear in a special area
+display (display);
 
-MUST: il programma dovrà svolgere l'operazione aritmetica di 
-sottrazione. Dati due numeri reali a e b, l'operazione "-", ci darà, se 
-è calcolabile dall'elaboratore, un terzo numero c = a-b; 
-
-MUST: il programma dovrà svolgere l'operazione aritmetica di 
-moltiplicazione. Dati due numeri reali a e b, l'operazione "x", ci darà, 
-se è calcolabile dall' elaboratore, un terzo numero c = axb; 
-
-MUST: il programma dovrà svolgere l'operazione aritmetica di divisione. 
-Dati due numeri reali a e b, l'operazione "/", ci darà, se è calcolabile 
-dall'elaboratore, un terzo numero c = a/b. Il programma dovrà altresì 
-gestire le divisioni per zero in modo appropriato; 
-
-MUST: il programma dovrà svolgere l'operazione di radice quadrata. Dato 
-un numero reale a, l'operazione radice quadrata o "SQRT", darà, se è 
-calcolabile dall'elaboratore, un terzo numero c = SQRT(a); 
-
-MUST: il programma dovrà permettere esplicitamente di aggiungere cifre 
-positive minori di 1 ad un numero già digitato attraverso l'uso del 
-simbolo ","; 
-
-MAY: il programma dovrà permettere esplicitamente di cambiare il segno 
-di un numero digitato, più precisamente sarà possibile scegliere due 
-segni e cioè "+" per i numeri positivi (caso tipico), o "-" per i numeri 
-negativi. Il programma in altri termini permetterà di manipolare sia 
-numeri positivi quanto numeri negativi; 
-
-SHOULD: il programma dovrebbe permettere esplicitamente di svuotare il 
-display dalle precedenti operazioni di I/O; 
+MUST: The program should perform the arithmetic operation of addition.
+Given two real numbers a and b, the operation "+", will give us, if it is computable
+from 'processor, a third number c = a + b;
 
-
-Requisiti NON funzionali 
-
-Requisiti di processo 
-
-MUST: Il programma dovrà essere implementato mediante linguaggio C, 
-utilizzando le API MUI/Zune per ciò che concerne l'interfaccia grafica; 
-
-MUST: Il programma permetterà la visualizzazione e la manipolazione di 
-14 (limite della calcolatrice inclusa in AmigaOS) cifre. 
-
-Requisiti di prodotto 
-
-MUST: Il programma dovrà essere implementato utilizzando gli header SDI 
-per garantire la sua portabilità tra le diverse incarnazioni Amiga 
-(AmigaOS3.x, AmigaOS4, MorphOS, AROS); 
-
-MUST: L'interfaccia grafica dovrà avere l'aspetto e l'usabilità di una 
-calcolatrice reale; 
------------------------------------------------------------------------ 
-
-
-6.2.1 Livelli di definizione dei requisiti 
-
-Per formalizzare in modo chiaro tutti i requisiti di un software da 
-realizzare, è possibile definire due livelli di definizione: 
-
-1) Nel primo livello vengono espressi i requisiti in linguaggio colloquiale 
-   ed attraverso dei diagrammi (UML);
-2) Nel secondo livello vengono specificati gli argomenti espressi nel primo 
-   livello utilizzando linguaggi tecnici;
-
-Da questi due livelli viene ricavato un documento chiamato Documento di 
-Specifica dei Requisiti (DSR), o anche Software Require Specify (SRS), 
-in cui i requisiti sono espressi in modo chiaro, corretto e senza 
-contraddizioni né ambiguità. 
-
-
-6.2.2 Casi d'uso in linguaggio colloquiale 
-
-I casi d'uso illustrano le possibili situazioni di utilizzo del 
-software. Ciascun caso d'uso si concentra di solito su uno dei requisiti 
-funzionali, approfondendo e specificando le diverse interazioni che il 
-software avrebbe con l'utente in quella determinata situazione. Ciascun 
-caso d'uso contiene uno o più scenari. Uno scenario è un modo 
-alternativo di interagire con una funzionalità del software, elencando 
-ciò che potrebbe succedere svolgendo dei passi piuttosto che altri; E' 
-possibile scrivere ciascun scenario attraverso il cosiddetto 
-"storyboard", in sostanza un elenco di passi, espressi in linguaggio 
-colloquiale, svolti dall'utente e le conseguenti risposte fornite dal 
-software. Per i casi d'uso vale di solito la seguente regola: 
-
-Requisito funzionale di priorità MUST -> Caso d'uso; 
-
-Nel nostro semplice esempio [file Casi_D'uso.txt in allegato a questo 
-capitolo] convertiremo anche i requisiti funzionali SHOULD e MAY in casi 
-d'uso, di solito ciò non viene fatto in quanto l'analisi dei requisiti 
-si concentra maggiormente sui requisiti funzionali di priorità MUST. 
-
-
-6.2.3 UML e i casi d'uso
-
-Per ciò che concerne il linguaggio UML, e cioè Unified Modelling 
-Language, è bene indicare una buona fonte di documentazione:
-
-http://programmazione.html.it/guide/leggi/41/guida-uml/
-
-Riassumiamo adesso i concetti fondamentali. 
-Dopo aver espresso in modo formale e disambiguo i requisiti del nostro 
-software, bisogna descrivere tali requisiti mediante una 
-rappresentazione grafica. Tale rappresentazione grafica è ottenibile 
-attraverso il linguaggio UML. Il risultato finale sarà il cosiddetto 
-"diagramma dei casi d'uso". Tale diagramma deve essere sempre intuitivo 
-da comprendere, dunque non dev'essere troppo complicato. Il diagramma 
-dei casi d'uso viene utilizzato dai progettisti per avere un quadro più 
-chiaro del progetto che si sta per sviluppare. Con un diagramma dei casi 
-d'uso è possibile in maniera intuitiva rappresentare le funzionalità del 
-software e come queste eventualmente dipendano tra loro. Una tale 
-visione potrebbe comportare dei dibattiti che giungeranno a possibili 
-migliori soluzioni e correzioni dei requisiti fin'ora esposti. 
-
-Innanzitutto il nostro software in UML viene rappresentato graficamente 
-mediante un rettangolo, il quale "confina" i cosiddetti casi d'uso. 
-
-Per passare dai requisiti funzionali ai casi d'uso si svolgono le 
-procedure che andremo adesso a descrivere. 
-
-UML ci permette di rappresentare graficamente ciascun caso d'uso 
-mediante un'ellisse; 
-
-Nei diagrammi dei casi d'uso una figura fondamentale è quella 
-dell'"attore": un'entità esterna al software che svolge un determinato 
-ruolo attivo; UML rappresenta graficamente un attore con un omino 
-stilizzato; 
-
-Nel nostro caso, molto semplice, avremo: 
-
-[immagine] 
-
-Il nostro esempio delimita i casi d'uso all'interno del sistema 
-"Calcolatrice", il nostro attore è l'utente. Visto che il sistema dà la 
-possibilità all'utente di interagire con le sue funzionalità tante volte 
-quante esse vengono richieste, solo in questo caso è possibile indicare 
-tale interazione con un'unica linea che è collegata a dei 
-"sottosistemi", i quali raggruppano alcune funzionalità. Abbiamo 
-raggruppato nel nostro caso delle funzionalità "Principali" e "di 
-Supporto". La freccia etichettata come "uses" sta ad indicare che il 
-caso d'uso "Visualizzazione Numero Digitato" viene utilizzato dai casi 
-d'uso che lo puntano con quella freccia, nel nostro caso tutti. 
-
-
-6.3 Progettazione 
-
-Dopo aver esplicitato, approfondito e disambiguato tutti i requisiti 
-nella fase precedente è possibile passare alla progettazione del 
+MUST: The program should perform the arithmetic
+subtraction. Given two real numbers a and b, the operation "-" will give us, if
+be calculated the generation, third number c = ab;
+
+MUST: The program should perform the arithmetic
+multiplication. Given two real numbers a and b, the operation "x", will give us,
+if it is calculated by the 'processor, a third number c = axb;
+
+MUST: The program should perform the arithmetic operation of division.
+Given two real numbers a and b, the operation "/", will give us, if it is computable
+the generated, third number c = a / b. The program will also
+manage the division by zero in an appropriate manner;
+
+MUST: The program will perform the operation square root. Since
+a real number a, the operation or the square root "sqrt", will, 
+generate a third calculation, third number c = SQRT (a);
+
+MUST: The program must explicitly allow you to add figures
+less than 1 to a positive number that has been typed by the use of
+symbol ",";
+
+MAY: The program must explicitly allow you to change the sign
+of a number you enter, more precisely you can choose two
+signs and that is "+" for positive numbers (typical case), or "-" by the numbers
+negative. This program is another way to manipulate
+positive numbers as negative numbers;
+
+Should: The program should explicitly allow the user to clear the
+display from previous operations I / O;
+
+
+Non-functional requirements
+
+Requirements Process
+
+MUST: The program will be implemented using C language,
+using the API MUI / Zune for the GUI;
+
+MUST: The program allows viewing and manipulation
+14 (limit of the calculator included in AmigaOS) figures.
+
+Product requirements
+
+MUST: The program will be implemented using the SDI headers
+to ensure its portability among different Amiga incarnations
+(AmigaOS3.x, AmigaOS4, MorphOS, AROS);
+
+MUST: The graphical interface should have the appearance and usability of a
+real calculator
+-------------------------------------------------- ---------------------
+
+
+6.2.1 Levels of requirements definition
+
+To formalize clearly all the requirements of a software
+achieved, you can define two levels of definition:
+
+1) In the first level requirements are expressed in colloquial language
+    and through diagrams (UML);
+2) In the second level are specified by the arguments expressed in the first
+    level using technical languages;
+
+From these two levels is obtained a document called Document
+Specifying Requirements (DSR), or even Specify Require Software (SRS),
+in which requirements are expressed clearly, correctly and without
+contradictions or ambiguities.
+
+
+6.2.2 Use Cases in colloquial language
+
+Use cases illustrate the possible situations of use of
+software. Each use case typically focuses on one of the requirements
+functional, deepening and detailing the different interactions that the
+software would have with the user in that particular situation. Each
+use case contains one or more scenarios. A scenario is an alternative
+ways to interact with a feature of the software it lists
+what could happen and can write each scenario at the model
+"storyboard", essentially a list of steps, expressed in language
+colloquial, carried by the user and answers provided by the
+software. For use cases it is usually the following rule:
+
+Functional requirement of priority MUST -> Use Case;
+
+In our simple example [file use_Case.txt attached to this
+chapter] will convert even the functional requirements SHOULD and MAY into 
+use cases, usually this is not done because the requirements analysis
+focuses more on the functional requirements of priority MUST.
+
+
+6.2.3 UML and use cases
+
+With regard to the UML, namely, Unified Modeling
+Language, it should be a good source of documentation:
+
+http://en.wikipedia.org/wiki/Unified_Modeling_Language
+
+Now to summarize the basic concepts.
+After expressing in a formal way and the requirements of our ambiguous
+software, we describe these requirements through
+graphics. This graphical representation is obtained
+through the UML. The end result will be known as a
+"use case diagram." This diagram should always be intuitive
+to understand, therefore, not be too complicated. Diagram
+use case is used by designers to get a better
+clear that which is the project to be developed. A case diagram
+you can use intuitively to represent the functionality of
+software and how these may depend on each other. Such a
+vision could lead to discussions that will come to the best possible
+solutions and corrections to the requirements set out so far.
+
+First of all our software in UML is represented graphically
+by a rectangle, which "borders" so-called use cases.
+
+To switch from functional requirements to use cases are
+procedures that we will now describe.
+
+UML allows us to graphically represent each use case
+by an ellipse;
+
+In the diagrams of use cases is a key figure
+the 'actor': an entity external to the software that performs a specific
+active role; UML graphically represents an actor with a little man
+stylized;
+
+In our case, very simple, we have:
+
+Our example defines the use cases within the system
+"Calculator", our actor is the user. Given that the system gives
+the user a chance to interact with its features so many times
+as they choose, only in this case can you tell that
+this interaction with a single line that is connected to the
+"subsystems", which bring together some features. We
+grouped in our case features "Main" and "Support".
+The arrow labeled "uses" indicates that the
+Use Case "Viewing Issue Type" is used by all the cases
+with the arrow pointing in our case.
+
+
+6.3 Design
+
+Having clear, detailed and unambiguous plans so all the requirements
+in the previous step you can switch to the design of the
 software.
 
-La fase di progettazione funge da ponte tra l'analisi dei requisiti e la 
-codifica stessa del codice sorgente del nostro software. Il risultato di 
-questa fase è il cosiddetto "Documento di specifica di progetto", o DSP, 
-il quale descriverà come realizzare i requisiti della fase precedente. 
-L'obiettivo della progettazione è quello di produrre software che 
-rispetti canoni di qualità come la modificabilità, la comprensibilità e 
-la riusabilità. La tendenza degli ingegneri del software è sempre più 
-quella di progettare un sistema che affronti il raggiungimento dei 
-requisiti prefissati attraverso una scomposizione in parti semi 
-indipendenti, in altre parole un sistema modularizzato. Esistono diverse 
-tecniche di modularizzazione, nel nostro esempio impiegheremo la 
-filosofia TOP-DOWN, in cui il problema iniziale viene scomposto in 
-sottoproblemi trattati in modo quanto più indipendende possibile. 
-Ciascun sottoproblema viene risolto all'interno di un modulo. Ciascun 
-modulo dev'essere visto dall'esterno come una "scatola nera", 
-accessibile solo attraverso i servizi che esso metterà a disposizione. 
-Un modulo è essenzialmente composto di due parti: 
+The design phase is the bridge between requirements analysis and
+encoding the same source code of our software. The result of
+this phase is the "document design specification", or DSP,
+which describes how to implement the requirements of the previous phase.
+The objective of the project is to produce software that
+respects qualities such as modifiability, understandability and
+reusability. The tendency of software engineers is increasingly
+to design a system that addresses the achievement of
+requirements set by a breakdown in independent parts, 
+in other words a modularized system. There are several
+modularization techniques, in our example we will use the
+TOP-DOWN philosophy, in which the initial problem is decomposed into
+subproblems treated as independently as possible.
+Each subproblem is solved within a module. Each
+form must be seen from outside as a "black box"
+accessible only through the services it will provide.
+A module is essentially composed of two parts:
 
-- Un'interfaccia, visibile all'esterno del modulo, la quale rappresenta 
-i servizi forniti dal modulo ad altri moduli; 
+- An interface is visible outside the module, which represents
+services provided by the module to other modules;
 
-- L'implementazione, nascosta all'esterno, la quale rappresenta i 
-dettagli implementativi del modulo. All'interno dell'implementazione 
-troviamo gli algoritmi, le strutture dati e le politiche di utilizzo 
-delle risorse con i quali il modulo riesce a fornire i propri servizi; 
+- The implementation, hidden outside, which represents the
+implementation details of the module. Inside deployment
+are algorithms, data structures and policies of use and
+resources with which the module is able to provide their services;
 
-Nei linguaggi di programmazione il concetto di modulo è identificato con 
-quello della funzione, sebbene i linguaggi orientati ad oggetti offrano 
-strumenti più potenti per effettuare una modularizzazione del sistema. 
-
+In programming languages the concept of a module is identified with
+the function, although the object-oriented languages offers the
+most powerful tools to make a modularization of the system. 
 
 
