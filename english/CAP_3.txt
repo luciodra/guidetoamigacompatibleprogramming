@@ -76,7 +76,7 @@ starting from the lower modules we have:
 - resource: a collection of low level functions that allow direct access to the
   system hardware;
 - device: a collection of functions that control character and block I/O devices
-  and, more generally, all available hardware;
+  and, more generally, all available hardware using AmigaOS IPC tecnique;
 - library: collection of functions for different uses;
 - system programs;
 
