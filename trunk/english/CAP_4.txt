@@ -1298,20 +1298,22 @@ mui. Per ottenere tutto questo dobbiamo renderla disponibile al nostro
 programma attraverso la funzione MUI_CreateCustomClass() di 
 muimaster.library. La sintassi è nel nostro caso la seguente: 
 
+After to have implemented all we have need in the past paraghraphs, we can use our new mui class. To obtain this we must make it avaiable to our program using MUI_CreateCustomClass() function from muimaster.library. Function' sintax for our example is:
+
 struct MUI_CustomClass *mcc;
 
 mcc = (struct MUI_CustomClass *) MUI_CreateCustomClass(NULL,
                                                        MUIC_Group,
                                                        NULL,
-                                                       sizeof(struct miaAreaDati),
-                                                       ENTRY(MioDispatcher));
+                                                       sizeof(struct miaDataArea),
+                                                       ENTRY(MyDispatcher));
                    
 Il primo parametro di questa funzione va a NULL per ciò che concerne le 
 classi mui private, viene impiegato infatti nel caso in cui si stia 
 rendendo disponibile in memoria una classe mui pubblica, al momento non 
 ci interessa sapere altro. Il secondo parametro rappresenta la classe 
 madre della nostra classe privata, dalla quale erediterà i relativi 
-metodi ed attributi. Il terzo metodo viene usato solo nel caso in cui la 
+metodi ed attributi. Il terzo parametro viene usato solo nel caso in cui la 
 nostra sottoclasse sia figlia di un'altra classe privata e dunque nel 
 nostro caso va anch'esso a NULL. Il quarto parametro dev'essere la 
 dimensione dell'area dati della nostra classe, l'ultimo parametro 
@@ -1321,17 +1323,22 @@ classe nativa ppc da una classe 68k, i compilatori degli altri sistemi
 invece la ignorano. In questo modo possiamo rendere compatibile la nostra 
 classe anche con MorphOS. 
 
+First parameter in this function is NULL because we are creating a private MUI class, in fact this parameter is used only when we should make avaiable in memory a mui public class, but for now this is not important for us. Second parameter represents mother class of our new private mui class, from which will inherit related methods and attributes. Third parameter is used only when our subclass is child of another our subclass, and so in this case even this one is NULL. Fourth parameter should be size of data area of our class, while latest parameter is the name of dispatcher function of our class. The ENTRY() macro is from SDI headers, it is used from MorphOS to distinguish a ppc native class from a 68k class, this macro is ignored by other system compilators. In this way we can make our class even with MorphOS.
+
+
 A questo punto, se la funzione MUI_CreateCustomClass() ha avuto 
 successo, all'interno della variabile mcc avremo un puntatore alla 
 nostra classe mui privata, da utilizzare con la funzione NewObject() di 
 Intuition in questo modo: 
 
+Now, if MUI_CreateCustomClass() function was successful executed, into mcc variable we have a pointer to out mui private class, to use it with NewObject() Intuition function in this way:
+
 Object *MyObj; 
 
 MyObj = (Object *) NewObject(mcc->mcc_Class, 
                              NULL,
-                             MUIA_MUIClassTutorial_TextStr,(IPTR) "Clicca il bottone...",
-                             MUIA_MUIClassTutorial_LabelBut,(IPTR) "Cliccami!",
+                             MUIA_MUIClassTutorial_TextStr,(IPTR) "Push the button...",
+                             MUIA_MUIClassTutorial_LabelBut,(IPTR) "PushMe!",
                              TAG_DONE);
 
 Come potete notare dall'esempio, una classe mui privata è identificata 
@@ -1343,15 +1350,23 @@ sappiamo stiamo chiamando il metodo OM_NEW della nostra classe, al quale
 passiamo i valori per gli attributi MUIA_MUIClassTutorial_TextStr e 
 MUIA_MUIClassTutorial_LabelBut. 
 
+As you see from the example, a private mui class is identified using MUI_CustomClass structure, this one contains a pointer (mcc_Class) to an IClass structure, with which BOOPSI private classes are identified. MUI documentation recommends only in this case to not use MUI_NewObject() function. With NewObject() as we know we are calling OM_NEW method of our class, which we send values for MUIA_MUIClassTutorial_TextStr and MUIA_MUIClassTutorial_LabelBut attributes.
+
 Dopo aver utilizzato la nostra classe, dovremmo cancellarla dalla 
 memoria con la funzione: 
+
+After to have used our class, we must remove it from memory with this function:
 
 MUI_DeleteCustomClass(mcc);
 
 la cui chiamata va dopo la canonica MUI_DisposeObject(); 
 
+this call must be done after usual MUI_DisposeObject();
+
 Dunque, inserendo la chiamata a MUI_CreateCustomClass() in un'apposita funzione,
 il nostro codice è così completo:
+
+So, inserting MUI_CreateCustomClass() call in a special function, our code is now complete:
 
 /****************************************************************************/
 //file sys.h
@@ -1445,8 +1460,8 @@ HOOKPROTONO(hookPutVal, void,APTR *data)
     bt_1=(Object *) *data++;
     str=(Object *) *data++; 
                 
-    SetAttrs(str, MUIA_String_Contents,(IPTR) "Bottone Cliccato", TAG_DONE);
-    SetAttrs(bt_1, MUIA_Text_Contents,(IPTR) "Cliccato!", TAG_DONE);
+    SetAttrs(str, MUIA_String_Contents,(IPTR) "Pushed button...", TAG_DONE);
+    SetAttrs(bt_1, MUIA_Text_Contents,(IPTR) "Pushed!", TAG_DONE);
     SetAttrs(bt_1, MUIA_Disabled,TRUE, TAG_DONE);    
 }
 MakeStaticHook(buttonHook, hookPutVal);
@@ -1586,8 +1601,8 @@ void fail(Object *app, STRPTR avviso)
     }
     else
     {
-        requester.es_Title        = "Avviso";
-        requester.es_TextFormat =  "Chiusura eseguita con successo";
+        requester.es_Title        = "Attention";
+        requester.es_TextFormat =  "Closure completed successfully";
         requester.es_GadgetFormat = "Exit";
         EasyRequestArgs(NULL, &requester, NULL, NULL);
     }
@@ -1597,27 +1612,27 @@ void fail(Object *app, STRPTR avviso)
 ///init()
 void init(void)
 {
-        #ifdef __MORPHOS__
+    #ifdef __MORPHOS__
     if ( !(UtilityBase=(struct Library *) OpenLibrary("utility.library",39)) )
-        #else
+    #else
     if ( !(UtilityBase=(struct UtilityBase *) OpenLibrary("utility.library",39)) )
-        #endif
+    #endif
     {
-        fail(NULL, "Attenzione! Non è stato possibile\n aprire utility.library");
+        fail(NULL, "Problem! It's not possible to open\n utility.library");
     }
     else
     {
-        #ifdef __amigaos4__
+    #ifdef __amigaos4__
         IUtility = (struct UtilityIFace *) GetInterface((struct Library *)UtilityBase, 
                                 "main", 
                                 1, 
                                 NULL);
-        #endif        
+    #endif        
     }
 
     if ( !(IntuitionBase=(struct IntuitionBase *) OpenLibrary("intuition.library",39)) )
     {
-        fail(NULL, "Attenzione! Non è stato possibile\n aprire intuition.library");
+        fail(NULL, "Problem! It's not possible to open\n intuition.library");
     }
     else
     {
@@ -1631,7 +1646,7 @@ void init(void)
 
     if (!(MUIMasterBase = OpenLibrary(MUIMASTER_NAME,19)))
     {
-        fail(NULL,"Attenzione! Non è stato possibile\n aprire muimaster.library" );
+        fail(NULL,"Problem! It's not possible to open\n muimaster.library" );
     }
     else
     {
@@ -1645,7 +1660,7 @@ void init(void)
 }
 ///
 
-///Funzione main()                             
+///main() function                             
 int main(int argc,char *argv[])
 {
     Object *MyObj, *window, *app;
@@ -1655,29 +1670,29 @@ int main(int argc,char *argv[])
 
     if (!(mcc = (struct MUI_CustomClass *) initMUIClass()))
     {
-                        fail(NULL,"Non è stato possibile creare la classe...");
+                        fail(NULL,"Problem! It's not possible to create our class...");
     }
 
 
     MyObj = (Object *) NewObject(mcc->mcc_Class, NULL,
-                                    MUIA_MUIClassTutorial_TextStr,(ULONG) "Clicca il bottone...",
-                                    MUIA_MUIClassTutorial_LabelBut,(ULONG) "Cliccami!",
+                                    MUIA_MUIClassTutorial_TextStr,(ULONG) "Push the button...",
+                                    MUIA_MUIClassTutorial_LabelBut,(ULONG) "Push me!",
                                  TAG_DONE);
 
 
     window = (Object *) MUI_NewObject(MUIC_Window,
-                                        MUIA_Window_Title,(IPTR) "Mia Finestra",
+                                        MUIA_Window_Title,(IPTR) "My Window",
                                         MUIA_Window_ID ,MAKE_ID('M','a','i','n'),
                                         MUIA_Window_RootObject, (IPTR) MyObj,
                                       TAG_DONE);
                                         
 
-        app = (Object *) MUI_NewObject(MUIC_Application,
+     app = (Object *) MUI_NewObject(MUIC_Application,
                                         MUIA_Application_Title      ,(IPTR)  "MuiPortableClass",
                                         MUIA_Application_Version    ,(IPTR)  "$VER: MuiPortableClass 1.0",
                                         MUIA_Application_Copyright  ,(IPTR)  " ",
                                         MUIA_Application_Author     ,(IPTR)  "ShInKurO",
-                                        MUIA_Application_Description,(IPTR)  "Classe MUI portabile",
+                                        MUIA_Application_Description,(IPTR)  "Portable MUI class",
                                         MUIA_Application_Base       ,(IPTR)  "MuiPortableClass",
                                         MUIA_Application_Window, (IPTR) window,
                                        TAG_DONE);
@@ -1685,7 +1700,7 @@ int main(int argc,char *argv[])
      
 
     if (!app)
-        fail(app, "Non è stato possibile creare l'applicazione");
+        fail(app, "Problem! It's not possible to create app");
 
     DoMethod(window, 
                 MUIM_Notify,
@@ -1699,7 +1714,7 @@ int main(int argc,char *argv[])
     
     SetAttrs(window, MUIA_Window_Open, TRUE, TAG_DONE);
                 
-    {/*blocco per la chiusura del programma*/
+    {/*main loop*/
         IPTR sigs = 0;
         while (DoMethod(app,MUIM_Application_NewInput,&sigs) != MUIV_Application_ReturnID_Quit)
         {
@@ -1735,6 +1750,7 @@ funzione che impiega tali headers. L'implementazione è la seguente, ed
 utilizza gli header SDI_stdarg.h ed SDI_compiler.h da includere nella 
 compilazione: 
 
+DoSuperNew() is a MorphOS utility function, it permitts to simplify creation of new BOOPSI and MUI subclass methods. Obviously as tradition in these situations, DoSuperNew() not existis in other Amiga flavours, but same SDI header authors have give us a portable version of DoSuperNew() which uses SDI headers. Implementation is following, it uses SDI_stdarg.h and SDI_compiler.h to include into compilation:
 
 Object * VARARGS68K DoSuperNew(struct IClass *cl, Object *obj, ...)
 {
@@ -1758,6 +1774,8 @@ della libreria stdarg.h e sono state "reinplementate" in SDI_stdarg.h in
 modo tale da avere uno standard comune su tutti gli OS Amiga, i quali 
 implementano in modo differente lo standard ANSI per le funzioni 
 varargs. 
+
+VARARGS68k macro into function declaration is born on AmigaOS4, it is used to tell to OS4 compiler to manage function variable parameters as it happens on AmigaOS3.x. Thanks to SDI_compilers.h other compilers ignore this VARARGS68k macro. VA_LIST, VA_START(), VA_ARG() and VA_END() are Amiga portable version of va_list, va_start(), va_arg() and va_end() from stdarg.h library header, in fact they are "reimplemented" into SDI_stdarg.h to have a common standard on all Amiga flavours (each Amiga flavour implements in a different way ANSI standard for varargs functions).
 
 
 4.8 MUI: notifica mediante metodi pubblici di classi private
