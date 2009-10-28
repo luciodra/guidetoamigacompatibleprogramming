@@ -1361,7 +1361,7 @@ classi mui private, viene impiegato infatti nel caso in cui si stia
 rendendo disponibile in memoria una classe mui pubblica, al momento non 
 ci interessa sapere altro. Il secondo parametro rappresenta la classe 
 madre della nostra classe privata, dalla quale erediterà i relativi 
-metodi ed attributi. Il terzo metodo viene usato solo nel caso in cui la 
+metodi ed attributi. Il terzo parametro viene usato solo nel caso in cui la 
 nostra sottoclasse sia figlia di un'altra classe privata e dunque nel 
 nostro caso va anch'esso a NULL. Il quarto parametro dev'essere la 
 dimensione dell'area dati della nostra classe, l'ultimo parametro 
