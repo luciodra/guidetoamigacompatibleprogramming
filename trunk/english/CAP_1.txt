@@ -130,9 +130,7 @@ systems:
 - MorphOS: http://en.wikipedia.org/wiki/MorphOS
 - AROS: http://en.wikipedia.org/wiki/AROS_Research_Operating_System
 
-Due to the conditions in which these Amiga flavours live, (AmigaOS3.x is no
-longer developed since 2000, AmigaOS4 is just getting through legal troubles, MorphOS
-development is irregular, AROS is inclined to anarchy), we must think
+Due to the conditions in which these Amiga flavours live, we must think
 about the reasons we would want to develop something for only one of those
 amiga flavours, while we could do it for all of them. If our goal is to
 write software for the Amiga platform and the platform is the result of
@@ -148,38 +146,38 @@ developed... Writing "Amiga multiplatform" code is not as difficult as it would
 appear, but we must follow some tips:
 
 1) MUI: 
-	http://aminet.net/dev/mui/mui38dev.lha ; 
+    http://aminet.net/dev/mui/mui38dev.lha ; 
 
-	First of all, the choice of an API to build a modern graphic interface
-	(in which we don't need to reimplement basic gadgets from scratch or
-	to define procedures for element placement - Layout - or struggle to
-	understand how to "interconnect" graphical objects) must be MUI, or
-	Magic User Interface, instead of other solutions. The MUI API is
-	available for all Amiga flavours, this is what makes MUI a must.
+    First of all, the choice of an API to build a modern graphic interface
+    (in which we don't need to reimplement basic gadgets from scratch or
+    to define procedures for element placement - Layout - or struggle to
+    understand how to "interconnect" graphical objects) must be MUI, or
+    Magic User Interface, instead of other solutions. The MUI API is
+    available for all Amiga flavours, this is what makes MUI a must.
 
 2) SDI: 
-	http://sourceforge.net/projects/sditools/ ; 
-	
-	Every amiga reincarnation has extended the AmigaOS3.1 APIs in different ways.
-	So, in every reincarnation there is a common API group, an updated and
-	incompatible API group and some new APIs incompatible and probably absent
-	from one incarnation to another. Regarding the second point, some AmigaOS 3.x
-	peculiarities, such as BOOPSI classes' dispatcher implementation, the callback
-	hook system etc... are different from one incarnation to another. To write
-	compatible software some macros are available, they are called SDI tools.
-	Using SDI we can write libraries and other vital parts of our software in a
-	portable way, without knowing how a single thing was reimplemented in AROS or
-	in AmigaOS4, but only knowing the common parts.
+    http://sourceforge.net/projects/sditools/ ; 
+    
+    Every amiga reincarnation has extended the AmigaOS3.1 APIs in different ways.
+    So, in every reincarnation there is a common API group, an updated and
+    incompatible API group and some new APIs incompatible and probably absent
+    from one incarnation to another. Regarding the second point, some AmigaOS 3.x
+    peculiarities, such as BOOPSI classes' dispatcher implementation, the callback
+    hook system etc... are different from one incarnation to another. To write
+    compatible software some macros are available, they are called SDI tools.
+    Using SDI we can write libraries and other vital parts of our software in a
+    portable way, without knowing how a single thing was reimplemented in AROS or
+    in AmigaOS4, but only knowing the common parts.
 
 
 3) Isolated conditional code:
 
-	We've just realized that there are new features in every amiga reincarnation which
-	could be absent in the others. If you want to use these new APIs we suggest to
-	use conditional code (in C language such code is marked between the following
-	instruction: #ifdef, #elif, #else, #endif), inside the vital functions of the
-	software, or to isolate such parts in functions and/or separate files to include
-	in the compilation for only one incarnation or the another.
+    We've just realized that there are new features in every amiga reincarnation which
+    could be absent in the others. If you want to use these new APIs we suggest to
+    use conditional code (in C language such code is marked between the following
+    instruction: #ifdef, #elif, #else, #endif), inside the vital functions of the
+    software, or to isolate such parts in functions and/or separate files to include
+    in the compilation for only one incarnation or the another.
 
 In the open source and freely readable amiga software we can find Yam, SimpleMail,
 Scout, and the MUI classes TextEditor, BetterString, NListxxx. All of these programs,
