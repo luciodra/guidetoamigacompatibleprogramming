@@ -1808,9 +1808,18 @@ passare a quest'ultimo. Riprendiamo adesso l'esempio del paragrafo
 loro valori nel momento in cui l'utente avrebbe premuto il bottone.
 Innanzitutto bisogna stabilire l'ID per il nostro nuovo metodo:
 
+After to have written about a MUI private class creation, it's time to introduce the second way to implement a right notification between MUI objects which we have just discuss in brief in past (paraghraph 4.5).
+First of all, it's right to know the past notification way which used callback hook system, in certain situations, couldn't rispect one of object oriented concepts: encapsulation, based on information hiding concept.
+In other words a class should be a black box which not well known contents, which gives services to user. However using an hook it's possible to modify from outside attributes of a class which are private, passing them to an hook function. 
+Using hooks it's not good even because it requests to use pointer arithmetic, which could lead to distraction errors in many cases. To avoid situations as this last one and to rispect OOP it's possible to manage MUI notification implementing public methods into our private class. A public class method obviously can use only data from data area of its class (in other words the attributes of class itself). It's good to remember with OOP paradigm a class method is called using a message. As we know with BOOPSI and MUI a message is rapresented with a structure containing ID of method and eventually parameters to send to it.
+Now we can take paraghraph 4.5.1 example in which we had a string, a button and we want change their values when user will have to click on button.
+First of all we must declare ID of our new public method:
+
 #define MUIM_MUIClassTutorial_ClickBut MUI_CLASS_TUTORIAL + 20
 
 Passiamo adesso alla dichiarazione del messaggio:
+
+Now we must declare our method message:
 
 struct MUIMP_MUIClassTutorial_ClickBut
 {
@@ -1824,14 +1833,15 @@ funzione che verrà associata al metodo MUIM_MUIClassTutorial_ClickBut
 altro non è che una versione modificata della precedente funzione
 hookPutVal. Più precisamente nel caso di callback hook avevamo:
 
+In this case the message will contain to its initialization method ID only, in fact in our example we have not used other paramethers, because our method will have to manage class internal datas. A function will be associated to our MUIM_MUIClassTutorial_ClickBut method will be a modified version of past hookPutVal function. Into callback hook sintax we had:
 
 HOOKPROTONO(hookPutVal, void, APTR *data)
 {
 
-  Object *bottone, *stringa;
+  Object *button, *string;
 
-  bottone=(Object *) *data++;
-  stringa=(Object *) *data++;
+  button=(Object *) *data++;
+  string=(Object *) *data++;
 
   .
   .
@@ -1841,6 +1851,8 @@ HOOKPROTONO(hookPutVal, void, APTR *data)
 MakeStaticHook(buttonHook,hookPutVal);
 
 invece adesso avremmo una funzione di questo genere:
+
+instead now we have a similar function:
 
 IPTR mClickBut(struct IClass *cl,Object *obj, struct MUIMP_MUIClassTutorial_ClickBut *msg)
 {
@@ -1865,6 +1877,7 @@ appare come qualsiasi altra demandata allo scopo di metodo di una
 classe. Il dispatcher della nostra classe privata assocerà a questo
 punto la funzione mClickBut() all'ID MUIM_MUIClassTutorial_ClickBut:
 
+As you can read, we haven't an explicit use of pointer arithmetic anymore and our function appears as any other function used like a class method. The dispatcher of our private class will associate mClickBut() function to the ID MUIM_MUIClassTutorial_ClickBut:
 
 DISPATCHER(MyDispatcher)
 {
@@ -1885,6 +1898,7 @@ classe privata, senza connetterlo al sistema di notifica MUI. Per
 ottenere tutto ciò dovremo utilizzare il già discusso metodo
 MUIM_Notify, il quale nel caso del callback hook veniva così utilizzato:
 
+But we have only declared a new method for our private class, without to connect it to MUI system notification. To obtain this connection we have to use just discussed MUIM_Notify method, which in callback hook case was used in this way:
 
 DoMethod(bottone, MUIM_Notify,
                   MUIA_Pressed, FALSE,
@@ -1897,6 +1911,8 @@ DoMethod(bottone, MUIM_Notify,
 
 mentre nel caso di notifica attraverso metodo avremo:
 
+while in case of notification using public method we will have:
+
 DoMethod(data->button, MUIM_Notify,
                    MUIA_Pressed, FALSE,
                    obj,
@@ -1907,6 +1923,9 @@ In altre parole stiamo utilizzando DoMethod() per svolgere la seguente
 azione: "Ogni qualvolta il bottone data->button viene selezionato invoca
 sull'istanza (obj) della nostra classe privata il metodo
 MUIM_MUIClassTutorial_ClickBut". Ecco il codice sostitutivo:
+
+In other words we are using DoMethod() to do the followind action:"everyway data->button object is selected than you have to invoke on istance obj of our private class MUIM_MUIClassTutorial_ClickBut method.". 
+This is the resulting code:
 
 /*****************************************************************************/
 // file MUIClass.h                             
