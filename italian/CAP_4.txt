@@ -2685,3 +2685,16 @@ di classi esterne alla nostra sottoclasse senza fare salti mortali nel
 codice.
 Si consiglia di consultare l'header mui.h per conoscere tutti gli
 shortcut MUI e quando sono validi.
+
+
+4.12 OM_DISPOSE
+
+4.13 MUIM_Setup e MUIM_Cleanup
+
+4.14 MUIM_AskMinMax
+
+4.15 MUIM_Show e MUIM_Hide
+
+4.16 MUIM_Draw
+
+4.17 MUIM_HandleInput
