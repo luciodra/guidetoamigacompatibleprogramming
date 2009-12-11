@@ -159,9 +159,7 @@ sistemi operativi cui ci riferiamo sono:
 - MorphOS: http://it.wikipedia.org/wiki/MorphOS 
 - AROS: http://it.wikipedia.org/wiki/AROS 
 
-Viste le condizioni nelle quali versano tali incarnazioni Amiga - 
-AmigaOS3.x non è più sviluppato dal 2000, AmigaOS4 è in balia di cause 
-legali, lo sviluppo di MorphOS è altalenante, AROS tende all'anarchia - 
+Viste le condizioni nelle quali versano tali incarnazioni Amiga
 è bene soffermarci sul perchè vorremmo sviluppare qualcosa solo per una 
 di queste incarnazioni, quando potremmo farlo per tutte e quattro. Se il 
 nostro scopo è quello di scrivere software per la piattaforma Amiga e la 
@@ -180,49 +178,49 @@ ed efficienza complessiva del programma in sviluppo... Scrivere codice
 bisogna però seguire degli accorgimenti: 
 
 1) MUI: 
-	http://aminet.net/dev/mui/mui38dev.lha ; 
-	http://www.amigamagazine.info/am_73.html (Rubrica Transaction) ; 
+    http://aminet.net/dev/mui/mui38dev.lha ; 
+    http://www.amigamagazine.info/am_73.html (Rubrica Transaction) ; 
 
-	Innanzitutto la scelta delle API per costruire un'interfaccia grafica 
-	moderna (e cioè in cui non bisognerà implementare da zero alcun gadget 
-	base o stabilire le politiche per la disposizione degli elementi 
-	-Layout- o esaurirsi per capire come "interconnettere" oggetti grafici)
-	deve ricadere su MUI, o Magic User Interface, invece che su altre soluzioni. 
-	Le API MUI sono disponibili per tutte le incarnazioni Amiga, 
-	questo fatto rende MUI una scelta obbligata; 
+    Innanzitutto la scelta delle API per costruire un'interfaccia grafica 
+    moderna (e cioè in cui non bisognerà implementare da zero alcun gadget 
+    base o stabilire le politiche per la disposizione degli elementi 
+    -Layout- o esaurirsi per capire come "interconnettere" oggetti grafici)
+    deve ricadere su MUI, o Magic User Interface, invece che su altre soluzioni. 
+    Le API MUI sono disponibili per tutte le incarnazioni Amiga, 
+    questo fatto rende MUI una scelta obbligata; 
 
 2) SDI: 
-	http://sourceforge.net/projects/sditools/ ; 
-	
-	Ciascuna incarnazione Amiga ha ripreso lo sviluppo delle API di AmigaOS3.1 e le 
-	ha estese in modo differente. Si ha dunque su ciascuna incarnazione un 
-	gruppo di API comune, un gruppo di API aggiornate ed incompatibili tra 
-	loro, un'altra parte di API nuove, del tutto incompatibili e 
-	probabilmente non presenti da un'incarnazione ad un'altra. Per quanto 
-	riguarda il secondo caso, alcune peculiarità di AmigaOS 3.x come 
-	l'implementazione del dispatcher delle classi BOOPSI, il sistema di 
-	callback hook, ecc... variano da incarnazione ad incarnazione. Per scrivere 
-	del software compatibile per ciascuna incarnazione sono state messe a 
-	disposizione 	delle macro chiamate collettivamente SDI Tools. Attraverso le 
-	SDI è possibile scrivere librerie, ed altre parti vitali del proprio software 
-	in maniera portabile, senza conoscere per forza come una determinata 
-	cosa sia stata ad esempio reimplementata su AROS piuttosto che su 
-	AmigaOS4, ma solo conoscendone le basi comuni.
-	
+    http://sourceforge.net/projects/sditools/ ; 
+    
+    Ciascuna incarnazione Amiga ha ripreso lo sviluppo delle API di AmigaOS3.1 e le 
+    ha estese in modo differente. Si ha dunque su ciascuna incarnazione un 
+    gruppo di API comune, un gruppo di API aggiornate ed incompatibili tra 
+    loro, un'altra parte di API nuove, del tutto incompatibili e 
+    probabilmente non presenti da un'incarnazione ad un'altra. Per quanto 
+    riguarda il secondo caso, alcune peculiarità di AmigaOS 3.x come 
+    l'implementazione del dispatcher delle classi BOOPSI, il sistema di 
+    callback hook, ecc... variano da incarnazione ad incarnazione. Per scrivere 
+    del software compatibile per ciascuna incarnazione sono state messe a 
+    disposizione    delle macro chiamate collettivamente SDI Tools. Attraverso le 
+    SDI è possibile scrivere librerie, ed altre parti vitali del proprio software 
+    in maniera portabile, senza conoscere per forza come una determinata 
+    cosa sia stata ad esempio reimplementata su AROS piuttosto che su 
+    AmigaOS4, ma solo conoscendone le basi comuni.
+    
 
 3) Codice condizionale isolato: 
-	
-	Abbiamo appena preso atto che ci sono delle nuove funzionalità su ciascuna 
-	incarnazione Amiga che potrebbero essere non presenti sulle rimanenti incarnazioni. 
-	Nel caso in cui si volessero usare queste nuove API il consiglio sarebbe quello di 
-	utilizzare codice condizionale (in linguaggio C tale codice è delimitato 
-	da istruzioni quali #ifdef, #elif, #else, #endif), all'interno delle 
-	funzioni vitali del software, o addirittura isolare tali parti in 
-	funzioni e/o file separati da includere nella compilazione solo 
-	per una determinata incarnazione piuttosto che per un'altra; 
+    
+    Abbiamo appena preso atto che ci sono delle nuove funzionalità su ciascuna 
+    incarnazione Amiga che potrebbero essere non presenti sulle rimanenti incarnazioni. 
+    Nel caso in cui si volessero usare queste nuove API il consiglio sarebbe quello di 
+    utilizzare codice condizionale (in linguaggio C tale codice è delimitato 
+    da istruzioni quali #ifdef, #elif, #else, #endif), all'interno delle 
+    funzioni vitali del software, o addirittura isolare tali parti in 
+    funzioni e/o file separati da includere nella compilazione solo 
+    per una determinata incarnazione piuttosto che per un'altra; 
 
-	Tra i software Amiga dal codice aperto e liberamente consultabile 
-	abbiamo Yam, SimpleMail, Scout, le classi MUI TextEditor, BetterString, 
-	NListxxx. Tutti questi programmi, utilizzati praticamente da ogni utente 
-	Amiga, sono sviluppati tenendo presente i su indicati tre punti; 
+    Tra i software Amiga dal codice aperto e liberamente consultabile 
+    abbiamo Yam, SimpleMail, Scout, le classi MUI TextEditor, BetterString, 
+    NListxxx. Tutti questi programmi, utilizzati praticamente da ogni utente 
+    Amiga, sono sviluppati tenendo presente i su indicati tre punti; 
 
