@@ -130,18 +130,18 @@ e la funzione EasyRequestArgs() di Intuition, dichiarata in questo modo:
 
 
 LONG EasyRequestArgs(struct Window *window,               /*finestra a cui   */
-                              /*fa capo il       */
-                              /*requester;       */
+                                                          /*fa capo il       */
+                                                          /*requester;       */
                               
                      CONST struct EasyStruct *easyStruct, /*il requester da  */
-                                  /*aprire;      */
+                                                          /*aprire;      */
                               
                      LONG *idcmpPtr,                      /*un particolare   */
-                                  /*evento che chiuda*/
-                              /*il requester     */
+                                                          /*evento che chiuda*/
+                                                          /*il requester     */
                               
                      CONST APTR args );                   /*eventuali        */
-                              /*argomenti...;    */
+                                                          /*argomenti...;    */
          
 dovremmo prima procedere all'apertura della intuition.library. Per 
 svolgere questo procedimento esiste una funzione di Exec chiamata 
@@ -284,7 +284,7 @@ int main(void)
   requester.es_Flags        = 0;
   requester.es_Title        = "Example requester";
   requester.es_GadgetFormat = "Exit";
-  requester.es_TextFormat   = "This is a try!";
+  requester.es_TextFormat   = "This is a test";
   IIntuition->EasyRequestArgs(NULL, &requester, NULL, NULL);
   
   
