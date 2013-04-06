@@ -1,4 +1,4 @@
-4: Interaction between programs and users on Amiga: GUI
+CHAPTER 4: Interaction between programs and users on Amiga: GUI
 
 "Neither PC, nor Mac, nor Amiga have invented the concept of mouse-driven
 GUI, but in 1985 Amiga offered certainly its most interesting and complete
@@ -865,16 +865,6 @@ highly modular applications. Following the rules of OOP the developer creates
 also software modules that can be used again in different contexts, and MUI
 programming is no exception.
 
-Innanzitutto il motore che rende una classe BOOPSI (e MUI) un modulo 
-attivo è una particolare funzione chiamata dispatcher. Nel momento in 
-cui un oggetto BOOPSI riceve un messaggio, quest'ultimo viene 
-controllato dalla funzione dispatcher, la quale verifica se è in grado 
-di trattare i parametri ricevuti attraverso il messaggio. In altre 
-parole tutte le funzioni di Intuition e MUI che abbiamo visto fin'ora 
-richiamano la funzione dispatcher, difatti un oggetto BOOPSI è solo una 
-struttura dati tipica del linguaggio C, la quale non potrebbe mai 
-svolgere un'azione senza l'intervento del dispatcher. 
-
 The engine behind a BOOPSI (and MUI) class that makes is an active module is a
 peculiar function called dispatcher. When a BOOPSI object receives a message,
 the dispatcher checks the message in order to verify if the receiver is able
@@ -882,16 +872,6 @@ to handle its parameters (the message itself). In other words every Intuition
 and MUI function we've talked about until now use the dispatcher. A BOOPSI
 object, in the end, is nothing but a plain C structure and it could not perform
 any action without a dispatcher.
-
-Come sappiamo ciascuna classe BOOPSI è figlia di un'altra classe, tale 
-relazione di parentela si articola sino ad arrivare alla rootclass. 
-Ciascuna classe possiede una propria funzione di dispatcher, la quale, 
-nel caso in cui non dovesse riconoscere un parametro ricevuto, avrebbe 
-il compito di inviare tale parametro sconosciuto al dispatcher della 
-classe madre. Questo "rimbalzo" verso l'alto di parametri potrebbe 
-arrivare sino al dispatcher della rootclass, il quale nel caso in cui 
-non riconoscesse uno dei parametri ricevuti risponderebbe al messaggio 
-con un codice d'errore. 
 
 Now we know that each BOOPSI class has a parent class; this relationship goes up
 until the rootclass. Each class has its own dispatcher function. If the class dispatcher
@@ -945,15 +925,8 @@ struct myDataArea
    STRPTR labelButton, labelStr;
 };
 
-A questo punto secondo le regole BOOPSI le variabili dichiarate in 
-questo modo all'interno dell'area dati saranno riconosciute, in seguito, 
-come attributi privati della classe. 
-
 Now, according to BOOPSI rules variables declared inside the data area will be
 later recognized as private attributes of the class.
-
-Per quanto riguarda i metodi, una classe MUI prevede la possibile 
-implementazione dei seguenti metodi: 
 
 Speaking of methods, a MUI class provides implementation of the following
 methods:
@@ -968,18 +941,10 @@ methods:
 --- MUIM_Cleanup;
 - OM_DISPOSE;
 
-Ciascun metodo dovrà essere implementato solo nel caso ci fosse la reale 
-necessità. 
-Al momento ci occuperemo solo di implementare il metodo OM_NEW. 
-
 Each method will be implemented only if really needed.  For the moment we will
 explain only how to implement the OM_NEW method.
 
 4.6.2 Implementing OM_NEW and its external tags
-
-Considerando l'esempio del dispatcher del paragrafo 4.5.2, la
-possibile definizione di una funzione mioNew() che corrisponderà al metodo OM_NEW 
-è la seguente: 
 
 Looking at the sample dispatcher in paragraph 4.5.2, a possible definition of a myNew()
 function (which will represent OM_NEW method implementation) could be:
@@ -1010,25 +975,6 @@ A function in charge of implementing OM_NEW will always have this signature:
 "cl" is the class the dispatcher belongs to, "obj" is the object that has received
 the message, "msg" is the message. INST_DATA() is a macro used to get a pointer to
 the private data area of the caller object.
-
-L'area dati della nostra classe non è nient'altro che la composizione
-dell'area dati da noi dichiarata, contenente le altre aree dati delle
-eventuali superclassi (polimorfismo). L'allocazione delle altre aree dati
-viene effettuata richiamando il metodo OM_NEW della superclasse, il quale
-invocherà il metodo OM_NEW della sua superclasse, e cosivvia fino ad arrivare
-alla rootclass. Il metodo OM_NEW della rootclass allocherà a questo punto memoria
-sufficiente per un'area dati appartenente ad una propria istanza, passandola
-poi alla sottoclasse attraverso un puntatore: è stata così creata un'istanza
-della rootclass. La sottoclasse, ricevuto l'oggetto rootclass impiegherà quindi
-la macro INST_DATA() per dire al sistema di allocare altra memoria da aggiungere
-all'area dati della superclasse (identificata attraverso il puntatore all'oggetto
-di rootclass), in modo da popolarla con la propria aera dati.
-A questo punto, dopo aver svolto eventualmente altre azioni, il metodo OM_NEW di
-tale classe passerà questa nuova area dati "composta" alla sottoclasse, sempre
-attraverso un puntatore all'oggetto istanziato. Questo processo viene svolto da
-ciascuna superclasse, sino a giungere al nostro metodo OM_NEW, il quale non farà
-altro che mimare i su indicati passi, impiegando a tale proposito la macro
-INST_DATA().
 
 The data area of our class is nothing but the struct we declared before and 
 the other superclasses' data areas (polymorphism), if any. Allocation of the superclass
@@ -1133,11 +1079,6 @@ utility.library:
 
 IPTR GetTagData(Tag,IPTR,struct TagItem *);
 
-La funzione vuole l'etichetta del tag da individuare come primo argomento, 
-un valore di ritorno di default nel caso in cui non venga trovata l'etichetta 
-come secondo argomento, e la già vista ops_AttrList come ultimo argomento. 
-Impiegando GetTagData() al nostro esempio avremo:
-
 This function required the tag to be used as first argument, a default return value
 if the label is not found as second argument and the already mentioned ops_AttrList as
 last argument.
@@ -1156,10 +1097,6 @@ OM_NEW (which will be invoked anyway in order to solve this issue, too).
 
 At this stage we should istantiate the label and button objects, just like we did before
 (see paragraph 4.4.2) and initialize them with the labelStr and labelButton values.
-
-Per richiamare adesso il metodo OM_NEW della superclasse
-si può utilizzare DoSuperMethodA(), o la sua versione varargs DoSuperMethod(),
-in questo modo:
 
 In order to call the superclass' OM_NEW method we can either use DoSuperMethodA() or
 its variadic version DoSuperMethod():
@@ -1219,14 +1156,10 @@ At this point we have shown all there's to do to implement the OM_NEW method.
 
 4.6.3 Using a private class
 
-Dopo aver implementato tutto ciò che ci occorre nei paragrafi 
-precedenti, siamo nelle condizioni di utilizzare la nostra nuova classe 
-MUI. Per ottenere tutto questo dobbiamo renderla disponibile al nostro 
-programma attraverso la funzione MUI_CreateCustomClass() di 
-MUImaster.library. La sintassi è nel nostro caso la seguente: 
-
 After having implemented all that is needed in the previous paragraphs,
 we are now able to use our new MUI class.
+To do so, we use the method MUI_CustomClass() from MUImaster.library.
+The synta is as follows:
 
 struct MUI_CustomClass *mcc;
 
@@ -1248,11 +1181,6 @@ The fifth and last parameter is the dispatcher name. The ENTRY() macro, from the
 tools, is used by MorphOS to tell a native PPC class from a 68K one; other compiler
 will ignore this macro. Using this macro allows us to be compatible with MorphOS.
 
-A questo punto, se la funzione MUI_CreateCustomClass() ha avuto 
-successo, all'interno della variabile mcc avremo un puntatore alla 
-nostra classe MUI privata, da utilizzare con la funzione NewObject() di 
-Intuition in questo modo: 
-
 Now, if the call to MUI_CreateCustomClass() succeded, we should have in "mcc"
 the instance of our private MUI class, to be used as a parameter with for the
 Intuition method NewObject() as follows:
@@ -1272,17 +1200,11 @@ function. With NewObject() - as we explained earlier - we are invoking the OM_NE
 of our class, and we are passing it the values for the attributes MUIA_MUIClassTutorial_TextStr
 and MUIA_MUIClassTutorial_LabelBut.
 
-Dopo aver utilizzato la nostra classe, dovremmo cancellarla dalla 
-memoria con la funzione: 
-
 After having used our class, we must deallocate it from the memory:
 
 MUI_DeleteCustomClass(mcc);
 
 this call must be put after the usual MUI_DisposeObject();
-
-Dunque, inserendo la chiamata a MUI_CreateCustomClass() in un'apposita funzione,
-il nostro codice è così completo:
 
 So, after inserting MUI_CreateCustomClass() in a special function, our code is now complete:
 
@@ -1659,15 +1581,6 @@ int main(int argc,char *argv[])
 
 4.7 DoSuperNew() and variadic functions
 
-DoSuperNew() appartiene alle funzioni di utilità di MorphOS e permette 
-di semplificare la creazione dei metodi di nuove sottoclassi BOOPSI e 
-MUI. Ovviamente come da tradizione in queste situazioni, DoSuperNew() 
-non è presente negli altri sistemi, ma gli stessi autori degli SDI Tools 
-hanno indirettamente messo a disposizione una versione di questa 
-funzione che impiega tali headers. L'implementazione è la seguente, ed 
-utilizza gli header SDI_stdarg.h ed SDI_compiler.h da includere nella 
-compilazione: 
-
 DoSuperNew() belongs to the utility functions of MorphOS and allows the programmer
 to simplify the creation of methods of new BOOPSI and MUI subclasses.
 Obviously, as tradition imposes, DoSuperNew() is not present in other systems,
@@ -2003,14 +1916,6 @@ representation of these relationship:
 
 Classe1--->Classe3<---Classe2
 
-Ciascuna classe ha una propria area dati, quest'ultima, per rispettare 
-il concetto d'information hiding, è nota solo alla classe a cui 
-appartiene. Supponiamo inoltre che ciascuna classe abbia dei propri 
-attributi e metodi pubblici. Vogliamo a questo punto che nel momento in cui 
-l'attributo MUIA_Classe1_Attr1 cambia il suo valore in TRUE allora la Classe2 
-esegua il proprio metodo MUIM_Classe2_Metodo2. Innanzitutto avremo una 
-situazione del genere per ciò che concerne la Classe1: 
-
 Each of these classes has a private data area which is only known to each other,
 respecting the concept of information hiding. Let's also suppose that each of
 these classes has its own set of attributed and public methods. We want at this
@@ -2233,22 +2138,12 @@ DoMethod(instance2, MUIM_Notify,
            MUIA_Class3_Attr3,
            MUIV_TriggerValue);
 
-La prima chiamata a MUIM_Notify è di comprensione immediata: abbiamo in 
-sostanza agganciato il cambiamento di MUIA_Classe3_Attr3 a 
-MUIA_Classe2_Attr2, in altre parole stiamo propagando la nostra notifica
-dalla Classe3 alla Classe2. La stessa cosa dovrà essere implementata nella
-Classe2 in modo da propagare la notifica da essa alla Classe1.
-Nella seconda chiamata a MUIM_Notify abbiamo invece utilizzato, al posto 
-di MUIM_Set, MUIM_NoNotifySet.
-
 The first function call to MUIM_Notify it's easy to understand: basically we have
 linked the value changing of MUIA_Class3_Attr3 to MUIA_Class2_Attr2; we are
 propagating our notification from Class3 to Class2.
 Same thing must be done in Class2 in order to propagate the notification to Class1.
 In the second function call to MUIM_Notify we have used MUIM_NoNotifySet instead of
 MUIM_Set.
-
-[Q] MUIM_NoNotify_Set or MUIM_NoNotifySet?
 
 The MUIM_NoNotifySet method executes the same actions of MUIM_Set without notifying
 MUI about the changes that are being performed to a certain attribute.
@@ -2286,13 +2181,6 @@ could show up:
 
 In this case MUI 3.8+ breaks the subloop, preventing any possible unwanted
 interaction between notifications, without breaking the notification chain.
-
-Tutto ciò non vale però con Zune, il quale nelle ultime versioni riconosce
-i sottoloop, ma non reagisce in modo pronto e risoluto come invece agisce MUI.
-Per aggirare questo "bug" di Zune bisogna non solo interrompere il loop principale
-con i due MUIM_NoNotifySet agli estremi del loop, ma è richiesto uno sdoppiamento
-degli attributi utilizzati. In sostanza, ove possibile, è necessario assegnare
-agli stessi attributi etichette differenti, nel nostro caso:
 
 All this does not happen with Zune. In the latest versions Zune recognizes loops,
 but the countermeasures are not as quick as in MUI.
@@ -2382,8 +2270,6 @@ pushIDBar = DoMethod(objApp, MUIM_Application_PushMethod,
 this way the attribute Class4_AttrA will be set during the nth+1 iteration of
 the control loop, and the attribute Class4_AttrB will be set during the
 the nth+2 iteration of the control loop.
-
-[Q] ma non ti stai riferendo a Class1?
 
 Since MUI 3.9 MUIM_Application_PushMethod returns a value that identifies the method
 put into the memory area. This value is useful in case we would like to manually remove
