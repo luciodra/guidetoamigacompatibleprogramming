@@ -98,7 +98,7 @@ mangiare.
 Una classe può essere vista come la matrice da cui viene generato un 
 qualcosa di particolare, cioè l'oggetto. Il processo di generazione di 
 un oggetto è detto "istanziazione", e dunque l'istanza di una classe è 
-l'oggetto. 
+l'oggetto con tutte le sue proprietà e metodi.
 
 Esistono classi generiche, come i mammiferi, e classi più specifiche 
 come il gatto. In genere le classi si sviluppano secondo una gerarchia 
@@ -147,7 +147,9 @@ pinguino in modo da comportarsi come se fosse stato chiamato un metodo
 per il nuoto. Non tutti i metodi di una superclasse vengono per forza 
 ereditati nella sottoclasse, esistono infatti i metodi privati, i quali 
 sono utilizzabili solo dalle istanze della classe nella quale si 
-trovano. Inoltre all'interno di una classe possono essere definite delle 
+trovano.
+
+Inoltre all'interno di una classe possono essere definite delle 
 altre classi, dette interne, le quali possono essere pubbliche o 
 private, in quest'ultimo caso avremo lo stesso comportamento descritto 
 per gli attributi privati. 
@@ -155,8 +157,9 @@ per gli attributi privati.
 Infine più oggetti comunicano tra loro attraverso lo scambio di 
 messaggi. Un messaggio in questo caso è la combinazione tra un metodo da 
 invocare e gli eventuali valori degli attributi che questo metodo deve 
-manipolare. 
-
+manipolare.
+Un esempio di messaggio per un oggetto della classe "cane" potrebbe essere:
+il metodo "abbaia" e il valore "bau, bau".
 
 4.2 BOOPSI e MUI: Storia 
 
@@ -480,7 +483,7 @@ molti oggetti grafici che potrebbero accettare delle scorciatoie da tastiera.
 Il comportamento di BOOPSI "puro" prevede che l'oggetto avente il focus riceva
 tutti gli input, dunque se per esempio una stringa non supportasse
 una certa scorciatoia da tastiera il programma non attuerà alcuna azione.
-In altre parole non esiste il concetto di ereditarietà degli input tra gli oggetti
+In altre parole non esiste il concetto di ereditarietà degli input tra gli oggetti.
 Infine il supporto per il drag&drop tra oggetti grafici all'interno di 
 una GUI BOOPSI è del tutto assente su BOOPSI "puro", ciò significa che tutti gli 
 spostamenti al volo attraverso trascinamento di elementi di una GUI per adattarla 
@@ -489,7 +492,6 @@ non saranno ottenibili con l'utilizzo del solo BOOPSI, a meno di non riscriverli
 di sana pianta. 
 Per fortuna l'universo Amiga ci offre una soluzione a tutto questo: l'utilizzo 
 della GUI più amata ed odiata dagli utenti Amiga, in altre parole MUI. 
-
 
 4.4.1 MUI: punto di vista generale 
 
@@ -813,7 +815,7 @@ HOOKPROTONO(hookPutVal, void, APTR *data)
   Object *bottone, *stringa;
   
   bottone=(Object *) *data++;
-  stringa=(Object *) *data++; 
+  stringa=(Object *) *data;
     
   SetAttrs(stringa, 
            MUIA_String_Contents,
@@ -841,18 +843,17 @@ difatti in questo caso stiamo manipolando due oggetti. Questi ultimi
 vengono passati per indirizzo, più precisamente la variabile "data" 
 rappresenta i parametri ricevuti dal programma chiamante, il cui primo 
 parametro passato per mezzo di data è l'indirizzo all'hook. Per ricavare 
-l'indirizzo al primo oggetto che è stato passato alla funzione dopo 
-l'hook ci si sposta di una posizione in memoria (*data++), in questa 
-nuova posizione il sistema avrà messo a disposizione l'indirizzo del 
-primo oggetto. Si procede così anche per i successivi oggetti, nel 
-nostro caso abbiamo solo bottone e stringa. A questo punto abbiamo 
-recuperato tutti i dati che ci servono per manipolare gli oggetti mui: 
-procediamo quindi con tre chiamate a SetAttrs(), la prima ci permette di 
-inserire dentro il nostro oggetto MUIC_String il testo "Bottone 
-Cliccato", la seconda chiamata cambia il testo visualizzato dal bottone, 
-la terza chiamata rende il bottone disabilitato, cioè non più cliccabile 
-dall'utente. L'agganciamento della funzione ad un oggetto è invece 
-effettuata con il metodo MUIM_CallHook, indirizzato da MUIM_Notify: 
+l'indirizzo del primo oggetto che è stato passato alla funzione dopo 
+l'hook si fa un cast a (Object *) del puntatore. Si procede incrementando
+il puntatore per recuperare i successivi oggetti. Nel nostro caso abbiamo
+solo bottone e stringa. A questo punto abbiamo recuperato tutti i dati che
+ci servono per manipolare gli oggetti mui:  procediamo quindi con tre chiamate
+a SetAttrs(), la prima ci permette di inserire dentro il nostro oggetto
+MUIC_String il testo "Bottone Cliccato", la seconda chiamata cambia il testo
+visualizzato dal bottone, la terza chiamata rende il bottone disabilitato, cioè
+non più cliccabile dall'utente.
+L'agganciamento della funzione ad un oggetto è invece effettuata con il metodo
+MUIM_CallHook, indirizzato da MUIM_Notify: 
 
 DoMethod(bottone, MUIM_Notify, 
                   MUIA_Pressed, FALSE,
@@ -872,6 +873,7 @@ parametri:
 - l'oggetto su cui verrà eseguito il metodo di notifica;
 - il numero di parametri che verranno eventualmente passati al metodo di notifica;
 - il metodo di notifica;
+- i parametri, se presenti;
 
 Nel nostro caso:
 
@@ -2685,7 +2687,6 @@ di classi esterne alla nostra sottoclasse senza fare salti mortali nel
 codice.
 Si consiglia di consultare l'header mui.h per conoscere tutti gli
 shortcut MUI e quando sono validi.
-
 
 4.12 OM_DISPOSE
 
