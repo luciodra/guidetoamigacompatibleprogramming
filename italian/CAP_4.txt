@@ -1236,7 +1236,7 @@ MUIA_MUIClassTutorial_LabelBut.
 E' bene notare come la dichiarazione di NextTagItem() su AROS sia leggermente
 differente dalle altre incarnazioni Amiga, per tale motivo il su indicato
 codice comporterebbe degli avvisi (warnings) da parte del compilatore.
-Per risolvere questa situazione è possibile usare la macro TAGLIST:
+Per risolvere questa situazione è possibile definire	 TAGITEM:
 
 #ifdef __AROS__
   #define TAGITEM const struct TagItem **
@@ -1296,7 +1296,7 @@ obj =(Object *) DoSuperMethod(cl,
 if (obj==NULL)
   return 0;
 
-Attraverso DoSuperMethod() abbiamo chiamato il metodo OM_NEW della classe
+Attraverso DoSuperMethod() invochiamo il metodo OM_NEW della classe
 madre, nel nostro esempio è MUIC_Group, passando ad esso una tag list che 
 permetterà al metodo chiamato di creare un gruppo con la nostra
 stringa e il nostro bottone come figli. TAG_MORE segnala al sistema la 
@@ -1495,11 +1495,11 @@ HOOKPROTONO(hookPutVal, void,APTR *data)
     Object *bt_1, *str;
         
     bt_1=(Object *) *data++;
-    str=(Object *) *data++; 
+    str=(Object *) *data;
                 
     SetAttrs(str, MUIA_String_Contents,(IPTR) "Bottone Cliccato", TAG_DONE);
     SetAttrs(bt_1, MUIA_Text_Contents,(IPTR) "Cliccato!", TAG_DONE);
-    SetAttrs(bt_1, MUIA_Disabled,TRUE, TAG_DONE);    
+    SetAttrs(bt_1, MUIA_Disabled, TRUE, TAG_DONE);    
 }
 MakeStaticHook(buttonHook, hookPutVal);
 ///
